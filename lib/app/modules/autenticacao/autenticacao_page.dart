@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:squadrum/app/modules/autenticacao/login_email/login_email_module.dart';
 import 'package:squadrum/app/shared/widgets/login_widget.dart';
 
 class AutenticacaoPage extends StatefulWidget {
@@ -32,7 +33,7 @@ class _AutenticacaoPageState extends State<AutenticacaoPage> {
               Padding(
                 padding: EdgeInsets.only(top: 10),
                 child: Align(
-                  child: Text("Gerenciamento de squads",
+                  child: Text("Gerenciamento de tarefas de squads",
                       style: GoogleFonts.cabin(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
@@ -50,6 +51,7 @@ class _AutenticacaoPageState extends State<AutenticacaoPage> {
                   color: Colors.red,
                   size: 35,
                 ),
+                callback: null,
               ),
               SizedBox(
                 height: 15,
@@ -62,6 +64,10 @@ class _AutenticacaoPageState extends State<AutenticacaoPage> {
                   color: Colors.white,
                   size: 35,
                 ),
+                callback: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => LoginEmailModule()));
+                },
               ),
             ],
           ),

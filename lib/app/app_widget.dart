@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:squadrum/app/modules/autenticacao/autenticacao_page.dart';
+import 'package:squadrum/app/modules/home/home_module.dart';
 
 class AppWidget extends StatelessWidget {
   @override
@@ -8,11 +8,10 @@ class AppWidget extends StatelessWidget {
       title: 'Squadrum',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          primaryColor: Color(0xff0277BD),
-          accentColor: Colors.white,
-          //backgroundColor: Color(0xff0277BD)
-          ),
-      home: AutenticacaoPage(),
+        primaryColor: Color(0xff0277BD),
+        accentColor: Colors.white,
+      ),
+      home: HomeModule(),
     );
   }
 }

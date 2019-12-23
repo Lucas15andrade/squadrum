@@ -1,4 +1,4 @@
-package com.example.squadrum
+package com.oandradev.squadrum
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

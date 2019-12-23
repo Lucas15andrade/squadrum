@@ -4,9 +4,13 @@ class LoginWidget extends StatelessWidget {
   final String texto;
   final Color corTexo;
   final Icon icone;
+  final VoidCallback callback;
 
   LoginWidget(
-      {@required this.icone, @required this.texto, @required this.corTexo});
+      {@required this.icone,
+      @required this.texto,
+      @required this.corTexo,
+      @required this.callback});
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +42,7 @@ class LoginWidget extends StatelessWidget {
               )
             ],
           ),
+          onTap: callback,
         ));
   }
 }
