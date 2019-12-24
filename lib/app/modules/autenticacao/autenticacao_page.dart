@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:squadrum/app/modules/autenticacao/login_email/login_email_module.dart';
+import 'package:squadrum/app/modules/autenticacao/registro_email/registro_email_module.dart';
 import 'package:squadrum/app/shared/widgets/login_widget.dart';
 
 class AutenticacaoPage extends StatefulWidget {
@@ -17,7 +18,7 @@ class _AutenticacaoPageState extends State<AutenticacaoPage> {
         //appBar: AppBar(),
         body: Container(
           child: Column(
-            //crossAxisAlignment: CrossAxisAlignment.center,
+            //crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Padding(
@@ -68,6 +69,19 @@ class _AutenticacaoPageState extends State<AutenticacaoPage> {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => LoginEmailModule()));
                 },
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => RegistroEmailModule()));
+                },
+                child: Text(
+                  "Registre-se",
+                  style: TextStyle(color: Colors.white, fontSize: 19),
+                ),
               ),
             ],
           ),

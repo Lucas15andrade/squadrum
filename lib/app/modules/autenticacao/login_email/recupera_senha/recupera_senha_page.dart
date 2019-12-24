@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-class CustomDrawerPage extends StatefulWidget {
+class RecuperaSenhaPage extends StatefulWidget {
   
   final String title;
-  const CustomDrawerPage({Key key, this.title = "CustomDrawer"}) : super(key: key);
+  const RecuperaSenhaPage({Key key, this.title = "RecuperaSenha"}) : super(key: key);
 
   @override
-  _CustomDrawerPageState createState() => _CustomDrawerPageState();
+  _RecuperaSenhaPageState createState() => _RecuperaSenhaPageState();
 }
 
-class _CustomDrawerPageState extends State<CustomDrawerPage> {
+class _RecuperaSenhaPageState extends State<RecuperaSenhaPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

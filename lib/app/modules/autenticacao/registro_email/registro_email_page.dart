@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:squadrum/app/app_bloc.dart';
 import 'package:squadrum/app/app_module.dart';
-import 'package:squadrum/app/modules/autenticacao/login_email/recupera_senha/recupera_senha_module.dart';
-import 'package:squadrum/app/modules/home/home_module.dart';
 import 'package:squadrum/app/shared/widgets/input_widget.dart';
 
-class LoginEmailPage extends StatefulWidget {
+class RegistroEmailPage extends StatefulWidget {
   final String title;
-  const LoginEmailPage({Key key, this.title = "LoginEmail"}) : super(key: key);
+  const RegistroEmailPage({Key key, this.title = "RegistroEmail"})
+      : super(key: key);
 
   @override
-  _LoginEmailPageState createState() => _LoginEmailPageState();
+  _RegistroEmailPageState createState() => _RegistroEmailPageState();
 }
 
-class _LoginEmailPageState extends State<LoginEmailPage> {
+class _RegistroEmailPageState extends State<RegistroEmailPage> {
   final _emailController = TextEditingController();
   final _senhaController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -40,7 +39,7 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "Entre com seu E-mail e Senha cadastrados",
+                  "Cadastre seu E-mail e Senha",
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 25,
@@ -64,22 +63,6 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
               SizedBox(
                 height: 20,
               ),
-              Align(
-                alignment: Alignment.topRight,
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => RecuperaSenhaModule()));
-                  },
-                  child: Text(
-                    "Esqueci minha senha",
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
               Container(
                 width: 20,
                 child: SizedBox(
@@ -95,7 +78,7 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
                           onFail: _onFail);
                     },
                     child: Text(
-                      "Entrar",
+                      "Cadastrar",
                       style: TextStyle(fontSize: 18),
                     ),
                   ),
@@ -114,7 +97,7 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
 
   void _onFail() {
     _scaffoldKey.currentState.showSnackBar(SnackBar(
-      content: Text("Falha ao Entrar!"),
+      content: Text("Falha ao criar usuário!"),
       backgroundColor: Colors.redAccent,
       duration: Duration(seconds: 2),
     ));
