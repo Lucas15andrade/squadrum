@@ -85,8 +85,8 @@ class _RegistroEmailPageState extends State<RegistroEmailPage> {
                     color: Colors.white,
                   ),
                   (s) {
-                    if (s != null) {
-                      autenticacaoBloc.pesquisaNickname(s.trim());
+                    if (s != null && s.length > 0) {
+                      autenticacaoBloc.pesquisaNickname(s.trim().toLowerCase());
                     }
                   }),
               StreamBuilder(
@@ -95,18 +95,24 @@ class _RegistroEmailPageState extends State<RegistroEmailPage> {
                   if (snapshot.hasData) {
                     if (snapshot.data && _nickController.text.length > 0) {
                       nicknameExiste = true;
-                      return Text(
-                        "Nickname já existe!",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold),
+                      return Container(
+                        margin: EdgeInsets.only(left: 12),
+                        child: Text(
+                          "Nickname já existe!",
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
                       );
                     } else if (!snapshot.data &&
-                        _nickController.text.length > 0 && !_nickController.text.contains(" ")) {
+                        _nickController.text.length > 0 &&
+                        !_nickController.text.contains(" ")) {
                       nicknameExiste = false;
-                      return Text(
-                        "Nickname disponível",
-                        style: TextStyle(color: Colors.white),
+                      return Container(
+                        margin: EdgeInsets.only(left: 12),
+                        child: Text(
+                          "Nickname disponível!",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       );
                     }
                     return Container();
@@ -153,7 +159,7 @@ class _RegistroEmailPageState extends State<RegistroEmailPage> {
                       if (_formKey.currentState.validate() && !nicknameExiste) {
                         Map<String, dynamic> dadosUsuario = {
                           "nome": _nomeController.text,
-                          "nickname": _nickController.text,
+                          "nickname": _nickController.text.trim().toLowerCase(),
                           "email": _emailController.text,
                         };
                         appBloc.signUp(
