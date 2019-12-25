@@ -10,6 +10,7 @@ class AppWidget extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Color(0xff0277BD),
         accentColor: Colors.white,
+        errorColor: Colors.white
       ),
       home: HomeModule(),
     );

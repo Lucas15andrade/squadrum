@@ -6,8 +6,10 @@ class InputWidget extends StatelessWidget {
   String texto;
   var callback;
   int tipo;
+  Icon icone;
+  var onChange;
 
-  InputWidget(this._controller, this.texto, this.callback, this.tipo);
+  InputWidget(this._controller, this.texto, this.callback, this.tipo, this.icone, this.onChange);
 
   @override
   Widget build(BuildContext context) {
@@ -16,15 +18,7 @@ class InputWidget extends StatelessWidget {
       controller: _controller,
       style: TextStyle(color: Colors.white, fontSize: 20),
       decoration: InputDecoration(
-        prefixIcon: tipo == 1
-            ? Icon(
-                Icons.email,
-                color: Colors.white,
-              )
-            : Icon(
-                Icons.lock,
-                color: Colors.white,
-              ),
+        prefixIcon: icone,
         labelText: texto,
         enabledBorder: const OutlineInputBorder(
             borderSide: const BorderSide(color: Colors.white, width: 1.0)),
@@ -36,6 +30,7 @@ class InputWidget extends StatelessWidget {
             borderSide: BorderSide(color: Colors.white)),
       ),
       validator: callback,
+      onChanged: onChange,
     );
   }
 }

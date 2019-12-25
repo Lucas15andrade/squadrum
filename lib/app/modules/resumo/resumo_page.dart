@@ -14,7 +14,7 @@ class _ResumoPageState extends State<ResumoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text("AAA"),
       ),
       body: Column(
         children: <Widget>[],

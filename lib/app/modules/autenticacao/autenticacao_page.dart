@@ -16,9 +16,8 @@ class _AutenticacaoPageState extends State<AutenticacaoPage> {
     return Scaffold(
         backgroundColor: Colors.blue[800],
         //appBar: AppBar(),
-        body: Container(
+        body: SingleChildScrollView(
           child: Column(
-            //crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Padding(
@@ -52,7 +51,7 @@ class _AutenticacaoPageState extends State<AutenticacaoPage> {
                   color: Colors.red,
                   size: 35,
                 ),
-                callback: null,
+                callback: () {},
               ),
               SizedBox(
                 height: 15,

@@ -54,13 +54,13 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
               InputWidget(_emailController, "E-mail", (text) {
                 if (text.isEmpty || !text.contains("@"))
                   return "E-mail inválido!";
-              }, 1),
+              }, 1, Icon(Icons.email, color: Colors.white,),(s){}),
               SizedBox(
                 height: 20,
               ),
               InputWidget(_senhaController, "Senha", (text) {
                 if (text.isEmpty || text.length < 6) return "Senha inválida!";
-              }, 2),
+              }, 2, Icon(Icons.lock, color: Colors.white,),(s){}),
               SizedBox(
                 height: 20,
               ),
@@ -107,8 +107,6 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
   }
 
   void _onSuccess() {
-    /*  Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (context) => HomeModule())); */
     Navigator.of(context).pop();
   }
 

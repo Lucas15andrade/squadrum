@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:squadrum/app/app_bloc.dart';
 import 'package:squadrum/app/app_module.dart';
+import 'package:squadrum/app/modules/autenticacao/autenticacao_module.dart';
+import 'package:squadrum/app/modules/autenticacao/registro_email/registro_email_bloc.dart';
 import 'package:squadrum/app/shared/widgets/input_widget.dart';
 
 class RegistroEmailPage extends StatefulWidget {
@@ -15,10 +18,15 @@ class RegistroEmailPage extends StatefulWidget {
 class _RegistroEmailPageState extends State<RegistroEmailPage> {
   final _emailController = TextEditingController();
   final _senhaController = TextEditingController();
+  final _nomeController = TextEditingController();
+  final _nickController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   final appBloc = AppModule.to.getBloc<AppBloc>();
+  final autenticacaoBloc = AutenticacaoModule.to.bloc<RegistroEmailBloc>();
+
+  bool nicknameExiste = false;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +34,7 @@ class _RegistroEmailPageState extends State<RegistroEmailPage> {
         key: _scaffoldKey,
         backgroundColor: Colors.blue[800],
         appBar: AppBar(
-          title: Text("Login"),
+          title: Text("Cadastro"),
         ),
         body: Form(
           key: _formKey,
@@ -39,7 +47,7 @@ class _RegistroEmailPageState extends State<RegistroEmailPage> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "Cadastre seu E-mail e Senha",
+                  "Cadastre seu usuário",
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 25,
@@ -50,16 +58,88 @@ class _RegistroEmailPageState extends State<RegistroEmailPage> {
               SizedBox(
                 height: 20,
               ),
+              InputWidget(_nomeController, "Nome", (text) {
+                if (text.isEmpty || text.length < 6) return "Nome muito curto!";
+              },
+                  1,
+                  Icon(
+                    FontAwesomeIcons.userCircle,
+                    color: Colors.white,
+                  ),
+                  (s) {}),
+              SizedBox(
+                height: 20,
+              ),
+              InputWidget(
+                  _nickController,
+                  "Nickname",
+                  (text) {
+                    if (text.isEmpty || text.length < 6)
+                      return "Nickname muito curto!";
+                    else if (text.contains(" "))
+                      return "Não pode conter espaços vazios";
+                  },
+                  1,
+                  Icon(
+                    FontAwesomeIcons.userTag,
+                    color: Colors.white,
+                  ),
+                  (s) {
+                    if (s != null) {
+                      autenticacaoBloc.pesquisaNickname(s.trim());
+                    }
+                  }),
+              StreamBuilder(
+                stream: autenticacaoBloc.registroEmailOut,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    if (snapshot.data && _nickController.text.length > 0) {
+                      nicknameExiste = true;
+                      return Text(
+                        "Nickname já existe!",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold),
+                      );
+                    } else if (!snapshot.data &&
+                        _nickController.text.length > 0 && !_nickController.text.contains(" ")) {
+                      nicknameExiste = false;
+                      return Text(
+                        "Nickname disponível",
+                        style: TextStyle(color: Colors.white),
+                      );
+                    }
+                    return Container();
+                  } else {
+                    return Container();
+                  }
+                },
+              ),
+              SizedBox(
+                height: 20,
+              ),
               InputWidget(_emailController, "E-mail", (text) {
                 if (text.isEmpty || !text.contains("@"))
                   return "E-mail inválido!";
-              }, 1),
+              },
+                  1,
+                  Icon(
+                    Icons.email,
+                    color: Colors.white,
+                  ),
+                  (s) {}),
               SizedBox(
                 height: 20,
               ),
               InputWidget(_senhaController, "Senha", (text) {
                 if (text.isEmpty || text.length < 6) return "Senha inválida!";
-              }, 2),
+              },
+                  2,
+                  Icon(
+                    Icons.lock,
+                    color: Colors.white,
+                  ),
+                  (s) {}),
               SizedBox(
                 height: 20,
               ),
@@ -70,12 +150,18 @@ class _RegistroEmailPageState extends State<RegistroEmailPage> {
                   width: 10,
                   child: RaisedButton(
                     onPressed: () {
-                      if (_formKey.currentState.validate()) {}
-                      appBloc.signIn(
-                          email: _emailController.text,
-                          pass: _senhaController.text,
-                          onSuccess: _onSuccess,
-                          onFail: _onFail);
+                      if (_formKey.currentState.validate() && !nicknameExiste) {
+                        Map<String, dynamic> dadosUsuario = {
+                          "nome": _nomeController.text,
+                          "nickname": _nickController.text,
+                          "email": _emailController.text,
+                        };
+                        appBloc.signUp(
+                            userData: dadosUsuario,
+                            pass: _senhaController.text,
+                            onSuccess: _onSuccess,
+                            onFail: _onFail);
+                      }
                     },
                     child: Text(
                       "Cadastrar",
@@ -90,8 +176,6 @@ class _RegistroEmailPageState extends State<RegistroEmailPage> {
   }
 
   void _onSuccess() {
-    /*  Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (context) => HomeModule())); */
     Navigator.of(context).pop();
   }
 

@@ -1,15 +1,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:squadrum/app/app_bloc.dart';
+import 'package:squadrum/app/app_module.dart';
+import 'package:squadrum/app/shared/models/usuario_model.dart';
 
 class DrawerPersonalizado extends StatelessWidget {
   final PageController _pageController;
-  //final AppBloc appBloc;
-  final FirebaseUser firebaseUser;
+  final appBloc = AppModule.to.getBloc<AppBloc>();
+  FirebaseUser firebaseUser;
+  UsuarioModel usuario;
 
   DrawerPersonalizado(
     this._pageController,
-    this.firebaseUser,
+    this.usuario,
   );
   @override
   Widget build(BuildContext context) {
@@ -54,28 +57,22 @@ class DrawerPersonalizado extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                "Olá, ${firebaseUser.email}",
+                                "Olá, ${usuario.firebaseUser.email}",
                                 style: TextStyle(
                                     fontSize: 18.0,
                                     fontWeight: FontWeight.bold),
                               ),
                               GestureDetector(
                                 child: Text(
-                                  "Entre ou cadastre-se",
+                                  "Sair",
                                   style: TextStyle(
                                       color: Theme.of(context).primaryColor,
                                       fontSize: 16.0,
                                       fontWeight: FontWeight.bold),
                                 ),
                                 onTap: () {
-                                  /* if (!model.isLoggedIn()) {
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                LoginScreen()));
-                                  } else {
-                                    model.signOut();
-                                  } */
+                                  Navigator.of(context).pop();
+                                  appBloc.signOut();
                                 },
                               )
                             ],
