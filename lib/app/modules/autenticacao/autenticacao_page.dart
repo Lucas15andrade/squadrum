@@ -15,7 +15,6 @@ class _AutenticacaoPageState extends State<AutenticacaoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.blue[800],
-        //appBar: AppBar(),
         body: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,

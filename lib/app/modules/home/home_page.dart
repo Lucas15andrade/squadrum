@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:squadrum/app/app_bloc.dart';
 import 'package:squadrum/app/app_module.dart';
 import 'package:squadrum/app/modules/autenticacao/autenticacao_module.dart';
+import 'package:squadrum/app/modules/home/resumo/resumo_module.dart';
 import 'package:squadrum/app/shared/models/usuario_model.dart';
 import 'package:squadrum/app/shared/widgets/drawer_personalizado.dart';
 
@@ -20,26 +21,33 @@ class _HomePageState extends State<HomePage> {
     return StreamBuilder<UsuarioModel>(
       stream: appBloc.userOut,
       builder: (context, snapshot) {
-        if (snapshot.data == null || snapshot.data.firebaseUser == null) {
+        if (!snapshot.hasData || snapshot.data.firebaseUser == null) {
           return AutenticacaoModule();
-        } else if ((snapshot.data.firebaseUser != null &&
-                snapshot.data.carregando) ||
-            (snapshot.data.firebaseUser == null && snapshot.data.carregando)) {
-          return Scaffold(
-            backgroundColor: Theme.of(context).primaryColor,
-            body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  CircularProgressIndicator(),
-                  Text(
-                    "Entrando...",
-                    style: TextStyle(color: Colors.white, fontSize: 20),
-                  )
-                ],
+        } else if (snapshot.hasData &&
+            snapshot.data.carregando != null &&
+            snapshot.data.firebaseUser.uid == null) {
+          if ((snapshot.data.firebaseUser != null &&
+                  snapshot.data.carregando) ||
+              (snapshot.data.firebaseUser == null &&
+                  snapshot.data.carregando)) {
+            return Scaffold(
+              backgroundColor: Theme.of(context).primaryColor,
+              body: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    CircularProgressIndicator(),
+                    Text(
+                      "Entrando...",
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    )
+                  ],
+                ),
               ),
-            ),
-          );
+            );
+          } else {
+            return Container();
+          }
         } else {
           return PageView(
             controller: _pageController,
@@ -47,10 +55,11 @@ class _HomePageState extends State<HomePage> {
             children: <Widget>[
               Scaffold(
                 appBar: AppBar(
-                  title: Text("Resumo"),
+                  title: Text("Início"),
                   centerTitle: true,
                 ),
                 drawer: DrawerPersonalizado(_pageController, snapshot.data),
+                body: ResumoModule(),
               )
             ],
           );

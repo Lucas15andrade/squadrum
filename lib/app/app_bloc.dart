@@ -11,7 +11,8 @@ class AppBloc extends BlocBase {
   Map<String, dynamic> userData = Map();
   UsuarioModel usuario = UsuarioModel();
 
-  BehaviorSubject<UsuarioModel> _userController = BehaviorSubject();
+  BehaviorSubject<UsuarioModel> _userController =
+      BehaviorSubject.seeded(UsuarioModel());
   Stream get userOut => _userController.stream;
 
   Sink get userIn => _userController.sink;
@@ -94,8 +95,6 @@ class AppBloc extends BlocBase {
   Future<Null> _loadCurrentUser() async {
     if (firebaseUser == null) {
       firebaseUser = await _auth.currentUser();
-      usuario.firebaseUser = firebaseUser;
-      userIn.add(usuario);
     }
     if (firebaseUser != null) {
       if (userData["nome"] == null) {
@@ -104,6 +103,9 @@ class AppBloc extends BlocBase {
             .document(firebaseUser.uid)
             .get();
         userData = docUser.data;
+        usuario.firebaseUser = firebaseUser;
+        usuario.squads = docUser.data["squads"];
+        userIn.add(usuario);
       }
     }
   }
