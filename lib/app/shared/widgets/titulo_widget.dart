@@ -9,7 +9,7 @@ class TituloWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: 15, top: 15),
+      margin: EdgeInsets.only(left: 20, top: 15),
       child: Text(
         titulo,
         style: GoogleFonts.roboto(
