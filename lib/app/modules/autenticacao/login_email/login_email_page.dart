@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:squadrum/app/app_bloc.dart';
 import 'package:squadrum/app/app_module.dart';
+import 'package:squadrum/app/helper/IntroScreen.dart';
+import 'package:squadrum/app/modules/autenticacao/autenticacao_bloc.dart';
+import 'package:squadrum/app/modules/autenticacao/autenticacao_module.dart';
 import 'package:squadrum/app/modules/autenticacao/login_email/recupera_senha/recupera_senha_module.dart';
+import 'package:squadrum/app/modules/autenticacao/login_email/recupera_senha/recupera_senha_page.dart';
 import 'package:squadrum/app/modules/home/home_module.dart';
 import 'package:squadrum/app/shared/widgets/input_widget.dart';
 
@@ -19,7 +23,7 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  final appBloc = AppModule.to.getBloc<AppBloc>();
+  final autenticacaoBloc = AutenticacaoModule.to.getBloc<AutenticacaoBloc>();
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +73,7 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
                 child: GestureDetector(
                   onTap: () {
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => RecuperaSenhaModule()));
+                        builder: (context) => RecuperaSenhaPage()));
                   },
                   child: Text(
                     "Esqueci minha senha",
@@ -88,7 +92,7 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
                   child: RaisedButton(
                     onPressed: () {
                       if (_formKey.currentState.validate()) {}
-                      appBloc.signIn(
+                      autenticacaoBloc.signIn(
                           email: _emailController.text,
                           pass: _senhaController.text,
                           onSuccess: _onSuccess,
@@ -107,7 +111,9 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
   }
 
   void _onSuccess() {
-    Navigator.of(context).pop();
+    //Navigator.of(context).pop();
+     Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => IntroScreen()));
   }
 
   void _onFail() {

@@ -1,5 +1,5 @@
 name: squadrum
-description: A new Flutter project.
+description: Gerenciamento de squads.
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -17,6 +17,10 @@ environment:
   sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
+  intro_slider: ^2.2.8
+  flutter_speed_dial: ^1.2.5
+  firebase_storage: ^3.1.1
+  image_picker: ^0.6.3+1
   shared_preferences: ^0.5.6
   url_launcher: ^5.4.1
   firebase_auth: ^0.15.3
@@ -79,3 +83,13 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+  assets:
+    - assets/images/welcome.png
+    - assets/images/rocket.png
+
+    - assets/icons/add.png
+    - assets/icons/calendar.png
+    - assets/icons/os.png
+    - assets/icons/goal.png
+    - assets/icons/direction.png

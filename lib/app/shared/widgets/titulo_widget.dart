@@ -13,9 +13,9 @@ class TituloWidget extends StatelessWidget {
       child: Text(
         titulo,
         style: GoogleFonts.roboto(
-            fontSize: 40,
-            fontWeight: FontWeight.bold,
-            textStyle: TextStyle(color: Colors.black)),
+            fontSize: 23,
+            fontWeight: FontWeight.w600,
+            textStyle: TextStyle(color: Color(0xff37474F))),
       ),
     );
   }

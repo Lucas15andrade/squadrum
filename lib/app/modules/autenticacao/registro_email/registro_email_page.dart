@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:squadrum/app/app_bloc.dart';
-import 'package:squadrum/app/app_module.dart';
+import 'package:squadrum/app/modules/autenticacao/autenticacao_bloc.dart';
 import 'package:squadrum/app/modules/autenticacao/autenticacao_module.dart';
 import 'package:squadrum/app/modules/autenticacao/registro_email/registro_email_bloc.dart';
 import 'package:squadrum/app/shared/widgets/input_widget.dart';
@@ -23,8 +22,8 @@ class _RegistroEmailPageState extends State<RegistroEmailPage> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  final appBloc = AppModule.to.getBloc<AppBloc>();
-  final autenticacaoBloc = AutenticacaoModule.to.bloc<RegistroEmailBloc>();
+  final autenticacaoBloc = AutenticacaoModule.to.getBloc<AutenticacaoBloc>();
+  final registroBloc = AutenticacaoModule.to.bloc<RegistroEmailBloc>();
 
   bool nicknameExiste = false;
 
@@ -86,11 +85,11 @@ class _RegistroEmailPageState extends State<RegistroEmailPage> {
                   ),
                   (s) {
                     if (s != null && s.length > 0) {
-                      autenticacaoBloc.pesquisaNickname(s.trim().toLowerCase());
+                      registroBloc.pesquisaNickname(s.trim().toLowerCase());
                     }
                   }),
               StreamBuilder(
-                stream: autenticacaoBloc.registroEmailOut,
+                stream: registroBloc.registroEmailOut,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     if (snapshot.data && _nickController.text.length > 0) {
@@ -162,7 +161,7 @@ class _RegistroEmailPageState extends State<RegistroEmailPage> {
                           "nickname": _nickController.text.trim().toLowerCase(),
                           "email": _emailController.text,
                         };
-                        appBloc.signUp(
+                        autenticacaoBloc.signUp(
                             userData: dadosUsuario,
                             pass: _senhaController.text,
                             onSuccess: _onSuccess,

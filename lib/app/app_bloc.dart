@@ -1,8 +1,10 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:squadrum/app/modules/home/home_module.dart';
+import 'package:squadrum/app/modules/home/resumo/resumo_bloc.dart';
+import 'package:squadrum/app/shared/models/squad_model.dart';
 import 'package:squadrum/app/shared/models/usuario_model.dart';
 
 class AppBloc extends BlocBase {
@@ -10,69 +12,31 @@ class AppBloc extends BlocBase {
   FirebaseUser firebaseUser;
   Map<String, dynamic> userData = Map();
   UsuarioModel usuario = UsuarioModel();
+  List<SquadModel> squads = List();
 
   BehaviorSubject<UsuarioModel> _userController =
       BehaviorSubject.seeded(UsuarioModel());
+
   Stream get userOut => _userController.stream;
 
   Sink get userIn => _userController.sink;
 
+  BehaviorSubject<List<SquadModel>> _squadController = BehaviorSubject();
+
+  Stream get squadOut => _squadController.stream;
+
+  Sink get squadIn => _squadController.sink;
+
   //dispose will be called automatically by closing its streams
   AppBloc() {
-    _loadCurrentUser();
+    loadCurrentUser();
   }
 
   @override
   void dispose() {
     _userController.close();
+    _squadController.close();
     super.dispose();
-  }
-
-  void signUp(
-      {@required Map<String, dynamic> userData,
-      @required String pass,
-      VoidCallback onSuccess,
-      VoidCallback onFail}) {
-    _auth
-        .createUserWithEmailAndPassword(
-            email: userData["email"], password: pass)
-        .then((auth) async {
-      firebaseUser = auth.user;
-      usuario.firebaseUser = firebaseUser;
-      usuario.carregando = true;
-      userIn.add(usuario);
-      await _saveUserData(userData);
-
-      onSuccess();
-      usuario.carregando = false;
-      userIn.add(usuario);
-    }).catchError((e) {
-      print(e);
-      onFail();
-    });
-  }
-
-  void signIn(
-      {@required String email,
-      @required String pass,
-      @required onSuccess,
-      @required onFail}) async {
-    _auth
-        .signInWithEmailAndPassword(email: email, password: pass)
-        .then((auth) async {
-      firebaseUser = auth.user;
-      usuario.firebaseUser = firebaseUser;
-      usuario.carregando = true;
-      userIn.add(usuario);
-      await _loadCurrentUser();
-      onSuccess();
-      await Future.delayed(Duration(seconds: 2));
-      usuario.carregando = false;
-      userIn.add(usuario);
-    }).catchError((e) {
-      onFail();
-      print(e);
-    });
   }
 
   Future<Null> _saveUserData(Map<String, dynamic> userData) async {
@@ -88,11 +52,8 @@ class AppBloc extends BlocBase {
         .setData({"uid": firebaseUser.uid});
   }
 
-  void recoverPass(String email) {
-    _auth.sendPasswordResetEmail(email: email);
-  }
-
-  Future<Null> _loadCurrentUser() async {
+  Future<Null> loadCurrentUser() async {
+    print("carregando usuário atual");
     if (firebaseUser == null) {
       firebaseUser = await _auth.currentUser();
     }
@@ -104,8 +65,9 @@ class AppBloc extends BlocBase {
             .get();
         userData = docUser.data;
         usuario.firebaseUser = firebaseUser;
-        usuario.squads = docUser.data["squads"];
+        usuario.squads = await carregaSquads(docUser.data["squads"]);
         userIn.add(usuario);
+        squadIn.add(usuario.squads);
       }
     }
   }
@@ -115,5 +77,58 @@ class AppBloc extends BlocBase {
     userData = Map();
     usuario.firebaseUser = null;
     userIn.add(usuario);
+  }
+
+  Future<List<SquadModel>> carregaSquads(List<dynamic> squads) async {
+    List<String> idSquads = squads.map((s) {
+      return s.toString().trim();
+    }).toList();
+
+    List<SquadModel> listaSquads = List();
+
+    for (String s in idSquads) {
+      DocumentSnapshot docUser = await Firestore.instance
+          .collection("squads")
+          .document(s.toString().trim())
+          .get();
+
+      SquadModel squad = SquadModel.fromDocument(docUser);
+
+      if (squad.membros != null) {
+        for (String idMembro in squad.membros) {
+          DocumentSnapshot doc = await Firestore.instance
+              .collection("usuarios")
+              .document(idMembro.toString().trim())
+              .get();
+          UsuarioModel usuario = UsuarioModel.fromDocument(doc);
+          squad.listaUsuarios.add(usuario);
+        }
+      }
+
+      listaSquads.add(squad);
+    }
+
+    squadIn.add(usuario.squads);
+    squads = listaSquads;
+    HomeModule.to.bloc<ResumoBloc>().squadIn.add(listaSquads);
+    return listaSquads;
+  }
+
+  Future<Null> carregaMembros() {}
+
+  void adicionarUsuario(usuario) {
+    userIn.add(usuario);
+  }
+
+  void atualizaSquad(SquadModel squad){
+
+    for(SquadModel s in usuario.squads){
+      if(s.id == squad.id){
+        usuario.squads.remove(s);
+        usuario.squads.add(squad);
+      }
+    }
+
+    squadIn.add(usuario.squads);
   }
 }

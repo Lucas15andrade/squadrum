@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:squadrum/app/app_bloc.dart';
 import 'package:squadrum/app/app_module.dart';
+import 'package:squadrum/app/modules/autenticacao/autenticacao_bloc.dart';
+import 'package:squadrum/app/modules/autenticacao/autenticacao_module.dart';
 import 'package:squadrum/app/shared/widgets/input_widget.dart';
 
 class RecuperaSenhaPage extends StatefulWidget {
@@ -17,7 +19,7 @@ class _RecuperaSenhaPageState extends State<RecuperaSenhaPage> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  final appBloc = AppModule.to.getBloc<AppBloc>();
+  final autenticacaoBloc = AutenticacaoModule.to.getBloc<AutenticacaoBloc>();
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +71,7 @@ class _RecuperaSenhaPageState extends State<RecuperaSenhaPage> {
                   child: RaisedButton(
                     onPressed: () {
                       if (_formKey.currentState.validate()) {
-                        appBloc.recoverPass(_emailController.text);
+                        autenticacaoBloc.recoverPass(_emailController.text);
                         _scaffoldKey.currentState.showSnackBar(SnackBar(
                           content: Text("Verifique seu e-mail!"),
                           backgroundColor: Colors.black,

@@ -21,34 +21,7 @@ class _HomePageState extends State<HomePage> {
     return StreamBuilder<UsuarioModel>(
       stream: appBloc.userOut,
       builder: (context, snapshot) {
-        if (!snapshot.hasData || snapshot.data.firebaseUser == null) {
-          return AutenticacaoModule();
-        } else if (snapshot.hasData &&
-            snapshot.data.carregando != null &&
-            snapshot.data.firebaseUser.uid == null) {
-          if ((snapshot.data.firebaseUser != null &&
-                  snapshot.data.carregando) ||
-              (snapshot.data.firebaseUser == null &&
-                  snapshot.data.carregando)) {
-            return Scaffold(
-              backgroundColor: Theme.of(context).primaryColor,
-              body: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    CircularProgressIndicator(),
-                    Text(
-                      "Entrando...",
-                      style: TextStyle(color: Colors.white, fontSize: 20),
-                    )
-                  ],
-                ),
-              ),
-            );
-          } else {
-            return Container();
-          }
-        } else {
+        if (snapshot.hasData && snapshot.data.firebaseUser != null) {
           return PageView(
             controller: _pageController,
             physics: NeverScrollableScrollPhysics(),
@@ -62,6 +35,24 @@ class _HomePageState extends State<HomePage> {
                 body: ResumoModule(),
               )
             ],
+          );
+        } else if (!snapshot.hasData || snapshot.data.firebaseUser == null) {
+          return AutenticacaoModule();
+        } else {
+          return Scaffold(
+            backgroundColor: Theme.of(context).primaryColor,
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  CircularProgressIndicator(),
+                  Text(
+                    "Entrando...",
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  )
+                ],
+              ),
+            ),
           );
         }
       },

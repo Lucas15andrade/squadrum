@@ -8,9 +8,10 @@ class AppWidget extends StatelessWidget {
       title: 'Squadrum',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: Color(0xff0277BD),
+        primaryColor: Colors.blue[800],
         accentColor: Colors.white,
-        errorColor: Colors.white
+        errorColor: Colors.white,
+        backgroundColor: Colors.white
       ),
       home: HomeModule(),
     );

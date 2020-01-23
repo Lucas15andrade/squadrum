@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:squadrum/app/modules/home/resumo/resumo_module.dart';
+import 'package:squadrum/app/modules/home/resumo/squad/squad_bloc.dart';
+import 'package:squadrum/app/modules/home/resumo/squad/squad_module.dart';
 import 'package:squadrum/app/shared/models/squad_model.dart';
 
 class SquadWidget extends StatelessWidget {
@@ -12,10 +15,13 @@ class SquadWidget extends StatelessWidget {
 
     return GestureDetector(
         onTap: () {
-          print("SQUAD!!");
+          ResumoModule.to.getBloc<SquadBloc>().squadIn.add(squad);
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (_) => SquadModule()));
         },
         child: Container(
-          padding: EdgeInsets.all(20),
+          //padding: EdgeInsets.all(20),
+          padding: EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 10),
           width: 300,
           height: 100,
           child: Container(

@@ -17,10 +17,10 @@ class ResumoBloc extends BlocBase {
   Stream get squadOut => _squadController.stream;
   Sink get squadIn => _squadController.sink;
 
-  AppBloc appBloc = AppModule.to.getBloc<AppBloc>();
+  var usuario = AppModule.to.bloc<AppBloc>().usuario;
 
   ResumoBloc() {
-    _carregaSquads();
+    //_carregaSquads();
   }
 
   //dispose will be called automatically by closing its streams
@@ -30,9 +30,11 @@ class ResumoBloc extends BlocBase {
     super.dispose();
   }
 
-  void _carregaSquads() async {
-    List<String> idSquads = appBloc.usuario.squads.map((s) {
-      return s.toString();
+  Future<Null> _carregaSquads() async {
+   /* var listaSquads;
+
+    List<String> idSquads = usuario.squads.map((s) {
+      return s.toString().trim();
     }).toList();
 
     for (String s in idSquads) {
@@ -44,6 +46,6 @@ class ResumoBloc extends BlocBase {
       listaSquads.add(SquadModel.fromDocument(docUser));
     }
 
-    squadIn.add(listaSquads);
+    squadIn.add(listaSquads);*/
   }
 }

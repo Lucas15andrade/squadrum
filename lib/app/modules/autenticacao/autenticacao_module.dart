@@ -1,12 +1,17 @@
-  import 'package:squadrum/app/modules/autenticacao/registro_email/registro_email_bloc.dart';
-  import 'package:squadrum/app/modules/autenticacao/login_email/login_email_bloc.dart';
-  import 'package:bloc_pattern/bloc_pattern.dart';
-  import 'package:flutter/material.dart';
+import 'package:squadrum/app/modules/autenticacao/autenticacao_bloc.dart';
+import 'package:squadrum/app/modules/autenticacao/registro_email/registro_email_bloc.dart';
+import 'package:squadrum/app/modules/autenticacao/login_email/login_email_bloc.dart';
+import 'package:bloc_pattern/bloc_pattern.dart';
+import 'package:flutter/material.dart';
 import 'package:squadrum/app/modules/autenticacao/autenticacao_page.dart';
-  
-  class AutenticacaoModule extends ModuleWidget {
+
+class AutenticacaoModule extends ModuleWidget {
   @override
-  List<Bloc> get blocs => [Bloc((i) => RegistroEmailBloc()),Bloc((i) => LoginEmailBloc()),];
+  List<Bloc> get blocs => [
+        Bloc((i) => AutenticacaoBloc()),
+        Bloc((i) => RegistroEmailBloc()),
+        Bloc((i) => LoginEmailBloc()),
+      ];
 
   @override
   List<Dependency> get dependencies => [];
@@ -15,6 +20,4 @@ import 'package:squadrum/app/modules/autenticacao/autenticacao_page.dart';
   Widget get view => AutenticacaoPage();
 
   static Inject get to => Inject<AutenticacaoModule>.of();
-
 }
-  

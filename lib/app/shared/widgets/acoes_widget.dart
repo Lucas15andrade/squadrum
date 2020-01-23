@@ -1,0 +1,107 @@
+import 'package:flutter/material.dart';
+import 'package:squadrum/app/modules/home/resumo/squad/membro/membro_page.dart';
+
+class AcoesWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(left: 10, right: 10),
+      child: Column(
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Expanded(
+                  child: buildAcao(
+                      acao: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MembroPage()));
+                      },
+                      texto: "Adicionar Membro",
+                      imagem: AssetImage("assets/icons/add.png"))),
+              Expanded(
+                  child: buildAcao(
+                      acao: () {},
+                      texto: "Adicionar Evento",
+                      imagem: AssetImage("assets/icons/calendar.png"))),
+              Expanded(
+                  child: buildAcao(
+                      acao: () {},
+                      texto: "Ordem de Serviço",
+                      imagem: AssetImage("assets/icons/os.png"))),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              Expanded(
+                  child: buildAcao(
+                      acao: () {},
+                      texto: "Metas",
+                      imagem: AssetImage("assets/icons/goal.png"))),
+              Expanded(
+                  child: buildAcao(
+                      acao: () {},
+                      texto: "Medidas de Direção",
+                      imagem: AssetImage("assets/icons/direction.png"))),
+              Expanded(
+                  child: buildAcao(
+                      acao: () {},
+                      texto: "Criar Usuário",
+                      imagem: AssetImage("assets/icons/add.png"))),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildAcao({@required acao, @required texto, @required imagem}) {
+    return GestureDetector(
+        onTap: acao,
+        child: Container(
+          height: 150,
+          padding: EdgeInsets.only(left: 10, right: 10, bottom: 15, top: 10),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.rectangle,
+              borderRadius: BorderRadius.circular(8.0),
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 10.0,
+                    offset: Offset(0.0, 1.0))
+              ],
+            ),
+            child: Column(
+              children: <Widget>[
+                Container(
+                  width: 50,
+                  height: 50,
+                  margin: EdgeInsets.only(
+                    top: 20,
+                  ),
+                  decoration: BoxDecoration(
+                      image: DecorationImage(fit: BoxFit.fill, image: imagem)),
+                ),
+                Container(
+                    padding: EdgeInsets.only(top: 10),
+                    child: Center(
+                      child: Text(
+                        texto,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black,
+                        ),
+                        maxLines: 2,
+                      ),
+                    )),
+              ],
+            ),
+          ),
+        ));
+  }
+}

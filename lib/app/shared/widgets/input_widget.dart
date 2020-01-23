@@ -8,26 +8,30 @@ class InputWidget extends StatelessWidget {
   int tipo;
   Icon icone;
   var onChange;
+  Color cor;
 
-  InputWidget(this._controller, this.texto, this.callback, this.tipo, this.icone, this.onChange);
+  InputWidget(this._controller, this.texto, this.callback, this.tipo,
+      this.icone, this.onChange,
+      {this.cor});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       obscureText: tipo == 2 ? true : false,
       controller: _controller,
-      style: TextStyle(color: Colors.white, fontSize: 20),
+      style: TextStyle(color: cor != null ? cor : Colors.white, fontSize: 20),
       decoration: InputDecoration(
         prefixIcon: icone,
         labelText: texto,
-        enabledBorder: const OutlineInputBorder(
-            borderSide: const BorderSide(color: Colors.white, width: 1.0)),
+        enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+                color: cor != null ? cor : Colors.white, width: 2.0)),
         border: OutlineInputBorder(),
-        hintStyle: TextStyle(color: Colors.white),
-        labelStyle: TextStyle(color: Colors.white),
+        hintStyle: TextStyle(color: cor != null ? cor : Colors.white),
+        labelStyle: TextStyle(color: cor != null ? cor : Colors.white),
         focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(5.0)),
-            borderSide: BorderSide(color: Colors.white)),
+            borderSide: BorderSide(color: cor != null ? cor : Colors.white, width: 2.0)),
       ),
       validator: callback,
       onChanged: onChange,
