@@ -22,7 +22,7 @@ class SquadWidget extends StatelessWidget {
         child: Container(
           //padding: EdgeInsets.all(20),
           padding: EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 10),
-          width: 300,
+          width: 330,
           height: 100,
           child: Container(
             decoration: BoxDecoration(
@@ -51,8 +51,8 @@ class SquadWidget extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  width: 140,
-                  margin: EdgeInsets.only(left: 10),
+                  alignment: Alignment.center,
+                  width: 180,
                   child: Text(
                     squad.titulo,
                     style: TextStyle(

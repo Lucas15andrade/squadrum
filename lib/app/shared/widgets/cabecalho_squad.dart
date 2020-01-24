@@ -90,8 +90,6 @@ class CabecalhoSquad extends StatelessWidget {
   }
 
   atualizarLogoSquad(SquadModel squad) async {
-    print(squad.toString());
-
     File image = await ImagePicker.pickImage(source: ImageSource.gallery);
 
     if (image == null) return null;
@@ -107,8 +105,7 @@ class CabecalhoSquad extends StatelessWidget {
         .updateData({"urlImagem": url});
 
     squad.urlImagem = url;
-
-    squadBloc.squadIn.add(squad);
+    squadBloc.adicionaSquad(squad);
 
     AppModule.to.getBloc<AppBloc>().loadCurrentUser();
   }

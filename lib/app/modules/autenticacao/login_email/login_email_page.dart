@@ -118,7 +118,7 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
 
   void _onFail() {
     _scaffoldKey.currentState.showSnackBar(SnackBar(
-      content: Text("Falha ao Entrar!"),
+      content: Text("E-mail ou senha inválidos!"),
       backgroundColor: Colors.redAccent,
       duration: Duration(seconds: 2),
     ));

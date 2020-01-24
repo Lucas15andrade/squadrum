@@ -39,7 +39,8 @@ class AppBloc extends BlocBase {
     super.dispose();
   }
 
-  Future<Null> _saveUserData(Map<String, dynamic> userData) async {
+//TODO Remover
+/*   Future<Null> saveUserData(Map<String, dynamic> userData, FirebaseUser fUser) async {
     this.userData = userData;
     await Firestore.instance
         .collection("usuarios")
@@ -50,7 +51,7 @@ class AppBloc extends BlocBase {
         .collection("nicknames")
         .document(userData["nickname"])
         .setData({"uid": firebaseUser.uid});
-  }
+  } */
 
   Future<Null> loadCurrentUser() async {
     print("carregando usuário atual");
@@ -81,6 +82,7 @@ class AppBloc extends BlocBase {
 
   Future<List<SquadModel>> carregaSquads(List<dynamic> squads) async {
     List<String> idSquads = squads.map((s) {
+      print(s.toString());
       return s.toString().trim();
     }).toList();
 
@@ -114,16 +116,13 @@ class AppBloc extends BlocBase {
     return listaSquads;
   }
 
-  Future<Null> carregaMembros() {}
-
   void adicionarUsuario(usuario) {
     userIn.add(usuario);
   }
 
-  void atualizaSquad(SquadModel squad){
-
-    for(SquadModel s in usuario.squads){
-      if(s.id == squad.id){
+  void atualizaSquad(SquadModel squad) {
+    for (SquadModel s in usuario.squads) {
+      if (s.id == squad.id) {
         usuario.squads.remove(s);
         usuario.squads.add(squad);
       }

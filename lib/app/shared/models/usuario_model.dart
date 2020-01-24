@@ -16,7 +16,7 @@ class UsuarioModel {
   UsuarioModel({this.firebaseUser, this.carregando, this.squads, this.email, this.nome, this.nickname, this.urlImagem, this.cargo});
 
   UsuarioModel.fromDocument(DocumentSnapshot doc){
-    id = doc["id"];
+    id = doc.documentID;
     email = doc["email"];
     nome = doc["nome"];
     nickname = doc["nickname"];

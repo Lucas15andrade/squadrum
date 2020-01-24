@@ -2,6 +2,7 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:squadrum/app/app_bloc.dart';
 import 'package:squadrum/app/app_module.dart';
+import 'package:squadrum/app/services/firebase_service.dart';
 import 'package:squadrum/app/shared/models/usuario_model.dart';
 import 'package:flutter/material.dart';
 
@@ -22,6 +23,9 @@ class AutenticacaoBloc extends BlocBase {
       firebaseUser = auth.user;
       usuario.firebaseUser = firebaseUser;
       usuario.carregando = true;
+
+      FirebaseService.saveUserData(
+          userData: userData, firebaseUser: firebaseUser);
 
       AppModule.to.bloc<AppBloc>().adicionarUsuario(usuario);
 
