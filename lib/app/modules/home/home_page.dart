@@ -22,10 +22,34 @@ class _HomePageState extends State<HomePage> {
     return StreamBuilder<ConnectivityResult>(
       stream: appBloc.conOut,
       builder: (context, snapshot) {
-        if (snapshot.data != ConnectivityResult.mobile ||
-            snapshot.data != ConnectivityResult.wifi) {
-          return Center(
-            child: Text("Você não possui uma conexão com a internet!"),
+        if (snapshot.data == ConnectivityResult.none) {
+          return Scaffold(
+            backgroundColor: Theme.of(context).primaryColor,
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Image.asset(
+                    "assets/images/not.png",
+                    width: 300,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Text(
+                      "Não conseguimos nos conectar ao servidor. Por favor verifique sua conexão a internet!",
+                      style: TextStyle(
+                        color: Theme.of(context).accentColor,
+                        fontSize: 20,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  )
+                ],
+              ),
+            ),
           );
         } else {
           return StreamBuilder<UsuarioModel>(
