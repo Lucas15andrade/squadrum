@@ -22,8 +22,8 @@ class _HomePageState extends State<HomePage> {
     return StreamBuilder<ConnectivityResult>(
       stream: appBloc.conOut,
       builder: (context, snapshot) {
-        if (snapshot.data == ConnectivityResult.mobile ||
-            snapshot.data == ConnectivityResult.wifi) {
+        if (snapshot.data != ConnectivityResult.mobile ||
+            snapshot.data != ConnectivityResult.wifi) {
           return Center(
             child: Text("Você não possui uma conexão com a internet!"),
           );
