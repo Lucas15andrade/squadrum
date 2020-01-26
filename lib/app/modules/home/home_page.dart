@@ -1,3 +1,4 @@
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:squadrum/app/app_bloc.dart';
 import 'package:squadrum/app/app_module.dart';
@@ -18,41 +19,55 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<UsuarioModel>(
-      stream: appBloc.userOut,
+    return StreamBuilder<ConnectivityResult>(
+      stream: appBloc.conOut,
       builder: (context, snapshot) {
-        if (snapshot.hasData && snapshot.data.firebaseUser != null) {
-          return PageView(
-            controller: _pageController,
-            physics: NeverScrollableScrollPhysics(),
-            children: <Widget>[
-              Scaffold(
-                appBar: AppBar(
-                  title: Text("Início"),
-                  centerTitle: true,
-                ),
-                drawer: DrawerPersonalizado(_pageController, snapshot.data),
-                body: ResumoModule(),
-              )
-            ],
+        if (snapshot.data == ConnectivityResult.mobile ||
+            snapshot.data == ConnectivityResult.wifi) {
+          return Center(
+            child: Text("Você não possui uma conexão com a internet!"),
           );
-        } else if (!snapshot.hasData || snapshot.data.firebaseUser == null) {
-          return AutenticacaoModule();
         } else {
-          return Scaffold(
-            backgroundColor: Theme.of(context).primaryColor,
-            body: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  CircularProgressIndicator(),
-                  Text(
-                    "Entrando...",
-                    style: TextStyle(color: Colors.white, fontSize: 20),
-                  )
-                ],
-              ),
-            ),
+          return StreamBuilder<UsuarioModel>(
+            stream: appBloc.userOut,
+            builder: (context, snapshot) {
+              if (snapshot.hasData && snapshot.data.firebaseUser != null) {
+                return PageView(
+                  controller: _pageController,
+                  physics: NeverScrollableScrollPhysics(),
+                  children: <Widget>[
+                    Scaffold(
+                      appBar: AppBar(
+                        title: Text("Início"),
+                        centerTitle: true,
+                      ),
+                      drawer:
+                          DrawerPersonalizado(_pageController, snapshot.data),
+                      body: ResumoModule(),
+                    )
+                  ],
+                );
+              } else if (!snapshot.hasData ||
+                  snapshot.data.firebaseUser == null) {
+                return AutenticacaoModule();
+              } else {
+                return Scaffold(
+                  backgroundColor: Theme.of(context).primaryColor,
+                  body: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        CircularProgressIndicator(),
+                        Text(
+                          "Entrando...",
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        )
+                      ],
+                    ),
+                  ),
+                );
+              }
+            },
           );
         }
       },

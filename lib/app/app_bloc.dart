@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:squadrum/app/modules/home/home_module.dart';
@@ -18,24 +21,36 @@ class AppBloc extends BlocBase {
       BehaviorSubject.seeded(UsuarioModel());
 
   Stream get userOut => _userController.stream;
-
   Sink get userIn => _userController.sink;
 
   BehaviorSubject<List<SquadModel>> _squadController = BehaviorSubject();
 
   Stream get squadOut => _squadController.stream;
-
   Sink get squadIn => _squadController.sink;
+
+  //TESTE INTERNET
+
+  StreamController<ConnectivityResult> _connectivityController = StreamController();
+
+  Stream get conOut => _connectivityController.stream;
+  Sink get conIn => _connectivityController.sink;
+
+  StreamSubscription<ConnectivityResult> _subscription;
+
+  StreamSubscription get subsOut => _subscription;
 
   //dispose will be called automatically by closing its streams
   AppBloc() {
     loadCurrentUser();
+    verificaInternet();
   }
 
   @override
   void dispose() {
     _userController.close();
     _squadController.close();
+    _connectivityController.close();
+    _subscription.cancel();
     super.dispose();
   }
 
@@ -53,8 +68,16 @@ class AppBloc extends BlocBase {
         .setData({"uid": firebaseUser.uid});
   } */
 
+  Future<Null> verificaInternet() async {
+    conIn.add(await Connectivity().checkConnectivity());
+
+    _subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+      conIn.add(result);
+    });
+
+  }
+
   Future<Null> loadCurrentUser() async {
-    print("carregando usuário atual");
     if (firebaseUser == null) {
       firebaseUser = await _auth.currentUser();
     }

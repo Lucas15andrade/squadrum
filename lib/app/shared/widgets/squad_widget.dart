@@ -15,7 +15,8 @@ class SquadWidget extends StatelessWidget {
 
     return GestureDetector(
         onTap: () {
-          ResumoModule.to.getBloc<SquadBloc>().squadIn.add(squad);
+          //ResumoModule.to.getBloc<SquadBloc>().squadIn.add(squad);
+          ResumoModule.to.getBloc<SquadBloc>().adicionaSquad(squad);
           Navigator.of(context)
               .push(MaterialPageRoute(builder: (_) => SquadModule()));
         },

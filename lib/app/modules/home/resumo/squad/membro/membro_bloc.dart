@@ -22,15 +22,7 @@ class MembroBloc extends BlocBase {
     UsuarioModel usuario;
 
     if (nome.trim().length > 0) {
-      await Firestore.instance
-          .collection("nicknames")
-          .document(nome)
-          .get()
-          .then((DocumentSnapshot ds) {
-        if (ds.data != null) {
-          uid = ds.data["uid"];
-        }
-      });
+      uid = await FirebaseService.pesquisaNickname(nome);
     }
 
     if (uid != null) {
@@ -46,6 +38,8 @@ class MembroBloc extends BlocBase {
         }
       });
       usuarioIn.add(usuario);
+    } else {
+      usuarioIn.add(null);
     }
   }
 }

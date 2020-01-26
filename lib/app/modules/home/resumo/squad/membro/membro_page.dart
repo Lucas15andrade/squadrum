@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:squadrum/app/modules/home/resumo/squad/membro/membro_bloc.dart';
-import 'package:squadrum/app/modules/home/resumo/squad/squad_module.dart';
+import 'package:squadrum/app/modules/home/resumo/squad/membro/membro_module.dart';
 import 'package:squadrum/app/services/firebase_service.dart';
 import 'package:squadrum/app/shared/models/usuario_model.dart';
 import 'package:squadrum/app/shared/widgets/input_widget.dart';
@@ -19,7 +19,7 @@ class _MembroPageState extends State<MembroPage> {
 
   @override
   Widget build(BuildContext context) {
-    MembroBloc membroBloc = SquadModule.to.getBloc<MembroBloc>();
+    MembroBloc membroBloc = MembroModule.to.getBloc<MembroBloc>();
 
     return Scaffold(
         key: _scaffoldKey,
@@ -42,8 +42,7 @@ class _MembroPageState extends State<MembroPage> {
                     _usuarioController,
                     "Nickname",
                     (text) {
-                      if (text.isEmpty || !text.contains("@"))
-                        return "E-mail inválido!";
+                      if (text.isEmpty) return "Nickname inválido!";
                     },
                     1,
                     Icon(
@@ -58,7 +57,6 @@ class _MembroPageState extends State<MembroPage> {
                 ),
               ),
               Container(
-                //height: 200,
                 margin: EdgeInsets.all(20),
                 padding: EdgeInsets.all(20),
                 decoration: BoxDecoration(
@@ -109,20 +107,31 @@ class _MembroPageState extends State<MembroPage> {
                               ),
                             ],
                           ),
-                          SizedBox(height: 20,),
+                          SizedBox(
+                            height: 20,
+                          ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
                               RaisedButton(
                                 color: Colors.grey[200],
-                                child: Text("Cancelar", style: TextStyle(color: Colors.black),),
-                                onPressed: () {},
+                                child: Text(
+                                  "Cancelar",
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
                               ),
                               RaisedButton(
                                 color: Theme.of(context).primaryColor,
-                                child: Text("Adicionar", style: TextStyle(color: Colors.white),),
+                                child: Text(
+                                  "Adicionar",
+                                  style: TextStyle(color: Colors.white),
+                                ),
                                 onPressed: () async {
-                                  bool jaAdicionado = await FirebaseService.verificaUsuarioJaAdicionado(usuario);
+                                  bool jaAdicionado = await FirebaseService
+                                      .verificaUsuarioJaAdicionado(usuario);
                                   print("Usuário adicionado: ");
                                   print(jaAdicionado);
                                 },

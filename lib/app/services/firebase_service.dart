@@ -36,12 +36,10 @@ class FirebaseService {
   static Future<bool> verificaUsuarioJaAdicionado(UsuarioModel usuario) async {
     SquadModel squad = ResumoModule.to.bloc<SquadBloc>().squad;
 
-    for(SquadModel sm in usuario.squads){
-      print(sm.id);
-      print(squad.id);
-      /* if(sm.id == squad.id){
+    for (SquadModel sm in usuario.squads) {
+      if(sm.id == squad.id){
         return true;
-      } */
+      }
     }
     return false;
   }
@@ -61,8 +59,6 @@ class FirebaseService {
           .get();
 
       SquadModel squad = SquadModel.fromDocument(docUser);
-      print("Carregando");
-      print(squad.id);
 
       if (squad.membros != null) {
         for (String idMembro in squad.membros) {
@@ -79,5 +75,20 @@ class FirebaseService {
     }
 
     return listaSquads;
+  }
+
+  static Future<String> pesquisaNickname(String nickname) async{
+    String uid;
+    await Firestore.instance
+          .collection("nicknames")
+          .document(nickname)
+          .get()
+          .then((DocumentSnapshot ds) {
+        if (ds.data != null) {
+          uid = ds.data["uid"];
+        }
+      });
+
+      return uid;
   }
 }

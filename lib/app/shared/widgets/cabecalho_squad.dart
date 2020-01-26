@@ -9,6 +9,7 @@ import 'package:squadrum/app/app_bloc.dart';
 import 'package:squadrum/app/app_module.dart';
 import 'package:squadrum/app/modules/home/resumo/resumo_module.dart';
 import 'package:squadrum/app/modules/home/resumo/squad/squad_bloc.dart';
+import 'package:squadrum/app/services/image_service.dart';
 import 'package:squadrum/app/shared/models/squad_model.dart';
 import 'package:squadrum/app/shared/widgets/titulo_widget.dart';
 
@@ -90,7 +91,9 @@ class CabecalhoSquad extends StatelessWidget {
   }
 
   atualizarLogoSquad(SquadModel squad) async {
-    File image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    File file = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+    File image = await ImageService.comprimirImagem(file);
 
     if (image == null) return null;
 
@@ -99,7 +102,7 @@ class CabecalhoSquad extends StatelessWidget {
     StorageTaskSnapshot taskSnapshot = await task.onComplete;
     String url = await taskSnapshot.ref.getDownloadURL();
 
-    Firestore.instance
+    await Firestore.instance
         .collection("squads")
         .document(squad.id)
         .updateData({"urlImagem": url});

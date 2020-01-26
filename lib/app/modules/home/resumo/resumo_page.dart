@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:squadrum/app/app_bloc.dart';
 import 'package:squadrum/app/app_module.dart';
-import 'package:squadrum/app/modules/home/resumo/squad/squad_module.dart';
 import 'package:squadrum/app/shared/models/squad_model.dart';
 import 'package:squadrum/app/shared/widgets/caixa_widget.dart';
-import 'package:squadrum/app/shared/widgets/membros_widget.dart';
 import 'package:squadrum/app/shared/widgets/squad_widget.dart';
 import 'package:squadrum/app/shared/widgets/titulo_widget.dart';
 

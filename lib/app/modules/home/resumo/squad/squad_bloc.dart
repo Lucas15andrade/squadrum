@@ -16,7 +16,6 @@ class SquadBloc extends BlocBase {
   @override
   void dispose() {
     _squadController.close();
-    /* _usuarioController.close(); */
     super.dispose();
   }
 

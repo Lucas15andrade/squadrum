@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:squadrum/app/modules/home/resumo/squad/membro/membro_page.dart';
+import 'package:squadrum/app/modules/home/resumo/squad/membro/membro_module.dart';
 
 class AcoesWidget extends StatelessWidget {
   @override
@@ -17,7 +17,7 @@ class AcoesWidget extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => MembroPage()));
+                                builder: (context) => MembroModule()));
                       },
                       texto: "Adicionar Membro",
                       imagem: AssetImage("assets/icons/add.png"))),
