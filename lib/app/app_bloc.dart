@@ -30,7 +30,8 @@ class AppBloc extends BlocBase {
 
   //TESTE INTERNET
 
-  StreamController<ConnectivityResult> _connectivityController = StreamController();
+  StreamController<ConnectivityResult> _connectivityController =
+      StreamController();
 
   Stream get conOut => _connectivityController.stream;
   Sink get conIn => _connectivityController.sink;
@@ -54,27 +55,14 @@ class AppBloc extends BlocBase {
     super.dispose();
   }
 
-//TODO Remover
-/*   Future<Null> saveUserData(Map<String, dynamic> userData, FirebaseUser fUser) async {
-    this.userData = userData;
-    await Firestore.instance
-        .collection("usuarios")
-        .document(firebaseUser.uid)
-        .setData(userData);
-
-    await Firestore.instance
-        .collection("nicknames")
-        .document(userData["nickname"])
-        .setData({"uid": firebaseUser.uid});
-  } */
-
   Future<Null> verificaInternet() async {
     conIn.add(await Connectivity().checkConnectivity());
 
-    _subscription = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+    _subscription = Connectivity()
+        .onConnectivityChanged
+        .listen((ConnectivityResult result) {
       conIn.add(result);
     });
-
   }
 
   Future<Null> loadCurrentUser() async {
@@ -94,6 +82,20 @@ class AppBloc extends BlocBase {
         squadIn.add(usuario.squads);
       }
     }
+  }
+
+  Future<Null> carregaApenasSquads() async {
+    DocumentSnapshot docUser = await Firestore.instance
+        .collection("usuarios")
+        .document(firebaseUser.uid)
+        .get();
+    userData = docUser.data;
+    usuario.firebaseUser = firebaseUser;
+    usuario.squads = await carregaSquads(docUser.data["squads"]);
+    userIn.add(usuario);
+    squadIn.add(usuario.squads);
+
+    notifyListeners();
   }
 
   void signOut() async {
@@ -126,6 +128,7 @@ class AppBloc extends BlocBase {
               .document(idMembro.toString().trim())
               .get();
           UsuarioModel usuario = UsuarioModel.fromDocument(doc);
+          print(usuario.nome);
           squad.listaUsuarios.add(usuario);
         }
       }

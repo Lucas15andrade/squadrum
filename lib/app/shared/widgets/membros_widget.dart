@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:squadrum/app/modules/home/resumo/resumo_module.dart';
 import 'package:squadrum/app/modules/home/resumo/squad/squad_bloc.dart';
 import 'package:squadrum/app/shared/models/squad_model.dart';
 import 'package:squadrum/app/shared/models/usuario_model.dart';
 
 class MembrosWidget extends StatelessWidget {
-  List<UsuarioModel> usuarios;
-
   SquadBloc squadBloc = ResumoModule.to.getBloc<SquadBloc>();
 
   @override
@@ -35,7 +32,8 @@ class MembrosWidget extends StatelessWidget {
                         padding: EdgeInsets.only(
                             left: margemEsquerda,
                             right: margemDireita,
-                            bottom: 15, top: 10),
+                            bottom: 15,
+                            top: 10),
                         child: Container(
                           decoration: BoxDecoration(
                             //color: Color(0xffECEFF1),
@@ -74,7 +72,7 @@ class MembrosWidget extends StatelessWidget {
                               Container(
                                 padding: EdgeInsets.only(top: 5),
                                 child: Text(
-                                 usuario.cargo.toUpperCase(),
+                                  usuario.cargo.toUpperCase(),
                                   style: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w300,

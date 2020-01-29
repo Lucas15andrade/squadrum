@@ -14,10 +14,10 @@ class SquadModel {
 
   SquadModel.fromDocument(DocumentSnapshot document) {
     id = document.documentID;
-    titulo = document.data["titulo"];
-    descricao = document.data["descricao"];
-    urlImagem = document.data["urlImagem"];
-    membros = document.data["membros"];
+    titulo = document["titulo"];
+    descricao = document["descricao"];
+    urlImagem = document["urlImagem"];
+    membros = document["membros"];
   }
 
   Map<String, dynamic> toMap() {

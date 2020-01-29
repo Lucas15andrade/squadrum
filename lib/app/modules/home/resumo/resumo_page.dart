@@ -1,7 +1,9 @@
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:squadrum/app/app_bloc.dart';
 import 'package:squadrum/app/app_module.dart';
 import 'package:squadrum/app/shared/models/squad_model.dart';
+import 'package:squadrum/app/shared/teste_page.dart';
 import 'package:squadrum/app/shared/widgets/caixa_widget.dart';
 import 'package:squadrum/app/shared/widgets/squad_widget.dart';
 import 'package:squadrum/app/shared/widgets/titulo_widget.dart';
@@ -20,6 +22,13 @@ class _ResumoPageState extends State<ResumoPage> {
 
   @override
   Widget build(BuildContext context) {
+
+/*     appBloc.conOut.listen((data) {
+      if(data == ConnectivityResult.none){
+        Navigator.of(context).push(MaterialPageRoute(builder: (_) => TestePage()));
+      }
+    }); */
+
     return Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
         floatingActionButton: FloatingActionButton(
