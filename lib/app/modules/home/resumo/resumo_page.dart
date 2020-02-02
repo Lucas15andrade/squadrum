@@ -7,6 +7,7 @@ import 'package:squadrum/app/shared/teste_page.dart';
 import 'package:squadrum/app/shared/widgets/caixa_widget.dart';
 import 'package:squadrum/app/shared/widgets/squad_widget.dart';
 import 'package:squadrum/app/shared/widgets/titulo_widget.dart';
+import 'package:squadrum/app/shared/widgets/vazio_widget.dart';
 
 class ResumoPage extends StatefulWidget {
   final String title;
@@ -22,7 +23,6 @@ class _ResumoPageState extends State<ResumoPage> {
 
   @override
   Widget build(BuildContext context) {
-
 /*     appBloc.conOut.listen((data) {
       if(data == ConnectivityResult.none){
         Navigator.of(context).push(MaterialPageRoute(builder: (_) => TestePage()));
@@ -56,7 +56,7 @@ class _ResumoPageState extends State<ResumoPage> {
               child: StreamBuilder<List<SquadModel>>(
                 stream: appBloc.squadOut,
                 builder: (context, snapshot) {
-                  if (snapshot.hasData) {
+                  if (snapshot.hasData && snapshot.data.length > 0) {
                     return ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: snapshot.data.length,
@@ -65,9 +65,8 @@ class _ResumoPageState extends State<ResumoPage> {
                       },
                     );
                   } else {
-                    return Container(
-                      margin: EdgeInsets.only(top: 20),
-                      child: Text("Você não possui squads!"),
+                    return VazioWidget(
+                      texto: "Você ainda não possui Squads!",
                     );
                   }
                 },

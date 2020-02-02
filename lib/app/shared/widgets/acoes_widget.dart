@@ -46,10 +46,7 @@ class AcoesWidget extends StatelessWidget {
                       texto: "Medidas de Direção",
                       imagem: AssetImage("assets/icons/direction.png"))),
               Expanded(
-                  child: buildAcao(
-                      acao: () {},
-                      texto: "Criar Usuário",
-                      imagem: AssetImage("assets/icons/add.png"))),
+                  child: Container()),
             ],
           ),
         ],
@@ -61,7 +58,7 @@ class AcoesWidget extends StatelessWidget {
     return GestureDetector(
         onTap: acao,
         child: Container(
-          height: 150,
+          height: 145,
           padding: EdgeInsets.only(left: 10, right: 10, bottom: 15, top: 10),
           child: Container(
             decoration: BoxDecoration(
@@ -71,15 +68,15 @@ class AcoesWidget extends StatelessWidget {
               boxShadow: <BoxShadow>[
                 BoxShadow(
                     color: Colors.black26,
-                    blurRadius: 10.0,
-                    offset: Offset(0.0, 1.0))
+                    blurRadius: 3.0,
+                    offset: Offset(0.0, 4.0))
               ],
             ),
             child: Column(
               children: <Widget>[
                 Container(
-                  width: 50,
-                  height: 50,
+                  width: 35,
+                  height: 35,
                   margin: EdgeInsets.only(
                     top: 20,
                   ),

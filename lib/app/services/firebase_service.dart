@@ -3,11 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:squadrum/app/app_bloc.dart';
 import 'package:squadrum/app/app_module.dart';
-import 'package:squadrum/app/modules/home/resumo/resumo_bloc.dart';
 import 'package:squadrum/app/modules/home/resumo/resumo_module.dart';
+import 'package:squadrum/app/modules/home/resumo/squad/squad_bloc.dart';
 import 'package:squadrum/app/shared/models/squad_model.dart';
 import 'package:squadrum/app/shared/models/usuario_model.dart';
-import 'package:squadrum/app/modules/home/resumo/squad/squad_bloc.dart';
 
 class FirebaseService {
   static Future<Null> saveUserData(
@@ -96,9 +95,6 @@ class FirebaseService {
   static Future<Null> adicionarMembro(UsuarioModel usuario) async {
     SquadModel squad = ResumoModule.to.bloc<SquadBloc>().squad;
 
-    print("id usuario:" + usuario.id);
-    print("id squad:" + squad.id);
-
     await Firestore.instance
         .collection("squads")
         .document(squad.id)
@@ -111,6 +107,38 @@ class FirebaseService {
         .document(usuario.id)
         .updateData({
       "squads": FieldValue.arrayUnion([squad.id])
+    });
+
+    await AppModule.to.getBloc<AppBloc>().carregaApenasSquads();
+
+    UsuarioModel usuarioModel = AppModule.to.getBloc<AppBloc>().usuario;
+
+    var lista = usuarioModel.squads.where((s) {
+      if (s.id == squad.id) {
+        return true;
+      } else {
+        return false;
+      }
+    }).toList();
+
+    ResumoModule.to.getBloc<SquadBloc>().adicionaSquad(lista.first);
+  }
+
+  static Future<Null> removeMembro(UsuarioModel usuario) async {
+    SquadModel squad = ResumoModule.to.bloc<SquadBloc>().squad;
+
+    await Firestore.instance
+        .collection("squads")
+        .document(squad.id)
+        .updateData({
+      "membros": FieldValue.arrayRemove([usuario.id])
+    });
+
+    await Firestore.instance
+        .collection("usuarios")
+        .document(usuario.id)
+        .updateData({
+      "squads": FieldValue.arrayRemove([squad.id])
     });
 
     await AppModule.to.getBloc<AppBloc>().carregaApenasSquads();

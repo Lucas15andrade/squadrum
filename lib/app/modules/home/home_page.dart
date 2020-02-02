@@ -1,13 +1,9 @@
-import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:squadrum/app/app_bloc.dart';
 import 'package:squadrum/app/app_module.dart';
 import 'package:squadrum/app/modules/autenticacao/autenticacao_module.dart';
-import 'package:squadrum/app/modules/home/home_module.dart';
-import 'package:squadrum/app/modules/home/resumo/resumo_bloc.dart';
 import 'package:squadrum/app/modules/home/resumo/resumo_module.dart';
 import 'package:squadrum/app/shared/models/usuario_model.dart';
-import 'package:squadrum/app/shared/teste_page.dart';
 import 'package:squadrum/app/shared/widgets/drawer_personalizado.dart';
 
 class HomePage extends StatefulWidget {

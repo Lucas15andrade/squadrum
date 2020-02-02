@@ -91,6 +91,7 @@ flutter:
     - assets/images/welcome.png
     - assets/images/rocket.png
     - assets/images/not.png
+    - assets/images/not-found.png
 
     - assets/icons/add.png
     - assets/icons/calendar.png

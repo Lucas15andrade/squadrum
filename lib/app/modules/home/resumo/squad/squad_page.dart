@@ -30,11 +30,6 @@ class _SquadPageState extends State<SquadPage> {
                 child: TituloWidget("Membros"),
               ),
               MembrosWidget(),
-              /* Align(
-                alignment: Alignment.centerLeft,
-                child: TituloWidget("Lembretes"),
-              ),
-              MembrosWidget(), */
               Align(
                 alignment: Alignment.centerLeft,
                 child: TituloWidget("Ações"),

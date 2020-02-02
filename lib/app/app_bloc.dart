@@ -101,7 +101,9 @@ class AppBloc extends BlocBase {
   void signOut() async {
     await _auth.signOut();
     userData = Map();
-    usuario.firebaseUser = null;
+    firebaseUser = null;
+    usuario = UsuarioModel();
+    //usuario.firebaseUser = null;
     userIn.add(usuario);
   }
 

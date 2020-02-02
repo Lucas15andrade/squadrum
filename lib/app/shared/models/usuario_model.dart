@@ -12,8 +12,9 @@ class UsuarioModel {
   String id;
   String urlImagem;
   String cargo;
+  String bio;
 
-  UsuarioModel({this.firebaseUser, this.carregando, this.squads, this.email, this.nome, this.nickname, this.urlImagem, this.cargo});
+  UsuarioModel({this.firebaseUser, this.carregando, this.squads, this.email, this.nome, this.nickname, this.urlImagem, this.cargo, this.bio});
 
   UsuarioModel.fromDocument(DocumentSnapshot doc){
     id = doc.documentID;
@@ -22,5 +23,6 @@ class UsuarioModel {
     nickname = doc["nickname"];
     urlImagem = doc["urlImagem"];
     cargo = doc["cargo"];
+    bio = doc["bio"];
   }
 }

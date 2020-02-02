@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:squadrum/app/modules/home/resumo/resumo_module.dart';
 import 'package:squadrum/app/modules/home/resumo/squad/squad_bloc.dart';
+import 'package:squadrum/app/modules/home/resumo/squad/usuario/usuario_page.dart';
 import 'package:squadrum/app/shared/models/squad_model.dart';
 import 'package:squadrum/app/shared/models/usuario_model.dart';
 
@@ -27,7 +28,9 @@ class MembrosWidget extends StatelessWidget {
                   double margemDireita =
                       index == squad.listaUsuarios.length - 1 ? 20 : 7;
                   return GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (_) => UsuarioPage(usuario: usuario,)));
+                      },
                       child: Container(
                         padding: EdgeInsets.only(
                             left: margemEsquerda,
@@ -43,8 +46,8 @@ class MembrosWidget extends StatelessWidget {
                             boxShadow: <BoxShadow>[
                               BoxShadow(
                                   color: Colors.black26,
-                                  blurRadius: 10.0,
-                                  offset: Offset(0.0, 1.0))
+                                  blurRadius: 3.0,
+                                  offset: Offset(0.0, 4.0))
                             ],
                           ),
                           child: Column(

@@ -15,14 +15,11 @@ class SquadWidget extends StatelessWidget {
 
     return GestureDetector(
         onTap: () {
-          //ResumoModule.to.getBloc<SquadBloc>().squadIn.add(squad);
-          print(squad.listaUsuarios.toString());
           ResumoModule.to.getBloc<SquadBloc>().adicionaSquad(squad);
           Navigator.of(context)
               .push(MaterialPageRoute(builder: (_) => SquadModule()));
         },
         child: Container(
-          //padding: EdgeInsets.all(20),
           padding: EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 10),
           width: 330,
           height: 100,
