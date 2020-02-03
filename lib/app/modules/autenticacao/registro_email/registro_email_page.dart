@@ -33,6 +33,7 @@ class _RegistroEmailPageState extends State<RegistroEmailPage> {
         key: _scaffoldKey,
         backgroundColor: Colors.blue[800],
         appBar: AppBar(
+          centerTitle: true,
           title: Text("Cadastro"),
         ),
         body: Form(

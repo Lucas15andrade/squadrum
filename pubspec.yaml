@@ -40,9 +40,15 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
 
 dev_dependencies:
+  flutter_launcher_icons: "^0.7.3"
   mockito: ^4.1.1
   flutter_test:
     sdk: flutter
+
+flutter_icons:
+  image_path: "assets/icons/launcher_icon.png"
+  android: true
+  ios: true
 
 
 # For information on the generic Dart part of this file, see the
@@ -92,6 +98,7 @@ flutter:
     - assets/images/rocket.png
     - assets/images/not.png
     - assets/images/not-found.png
+    - assets/images/camera.png
 
     - assets/icons/add.png
     - assets/icons/calendar.png

@@ -42,7 +42,7 @@ class _AutenticacaoPageState extends State<AutenticacaoPage> {
               SizedBox(
                 height: 200,
               ),
-              LoginWidget(
+/*               LoginWidget(
                 corTexo: Colors.white,
                 texto: "Logar com o Google",
                 icone: Icon(
@@ -54,7 +54,7 @@ class _AutenticacaoPageState extends State<AutenticacaoPage> {
               ),
               SizedBox(
                 height: 15,
-              ),
+              ), */
               LoginWidget(
                 corTexo: Colors.white,
                 texto: "Logar com o E-mail",

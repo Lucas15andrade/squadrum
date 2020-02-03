@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:squadrum/app/app_bloc.dart';
-import 'package:squadrum/app/app_module.dart';
 import 'package:squadrum/app/helper/IntroScreen.dart';
 import 'package:squadrum/app/modules/autenticacao/autenticacao_bloc.dart';
 import 'package:squadrum/app/modules/autenticacao/autenticacao_module.dart';
-import 'package:squadrum/app/modules/autenticacao/login_email/recupera_senha/recupera_senha_module.dart';
 import 'package:squadrum/app/modules/autenticacao/login_email/recupera_senha/recupera_senha_page.dart';
-import 'package:squadrum/app/modules/home/home_module.dart';
 import 'package:squadrum/app/shared/widgets/input_widget.dart';
 
 class LoginEmailPage extends StatefulWidget {
@@ -31,6 +27,7 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
         key: _scaffoldKey,
         backgroundColor: Colors.blue[800],
         appBar: AppBar(
+          centerTitle: true,
           title: Text("Login"),
         ),
         body: Form(

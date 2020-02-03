@@ -1,12 +1,18 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:squadrum/app/app_bloc.dart';
 import 'package:squadrum/app/app_module.dart';
 import 'package:squadrum/app/modules/home/resumo/resumo_module.dart';
 import 'package:squadrum/app/modules/home/resumo/squad/squad_bloc.dart';
 import 'package:squadrum/app/shared/models/squad_model.dart';
 import 'package:squadrum/app/shared/models/usuario_model.dart';
+
+import 'image_service.dart';
 
 class FirebaseService {
   static Future<Null> saveUserData(
@@ -155,4 +161,30 @@ class FirebaseService {
 
     ResumoModule.to.getBloc<SquadBloc>().adicionaSquad(lista.first);
   }
+
+  static Future<Null> atualizaLogoSquad(SquadModel squad) async {
+    SquadBloc squadBloc = ResumoModule.to.getBloc<SquadBloc>();
+    File file = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+    File image = await ImageService.comprimirImagem(file);
+
+    if (image == null) return null;
+
+    StorageUploadTask task =
+        FirebaseStorage.instance.ref().child(squad.id).putFile(image);
+    StorageTaskSnapshot taskSnapshot = await task.onComplete;
+    String url = await taskSnapshot.ref.getDownloadURL();
+
+    await Firestore.instance
+        .collection("squads")
+        .document(squad.id)
+        .updateData({"urlImagem": url});
+
+    squad.urlImagem = url;
+    squadBloc.adicionaSquad(squad);
+
+    AppModule.to.getBloc<AppBloc>().loadCurrentUser();
+  }
+
+  static Future<Null> salvarSquad(SquadModel squad) async {}
 }

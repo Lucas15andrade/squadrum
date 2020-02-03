@@ -9,6 +9,7 @@ import 'package:squadrum/app/app_bloc.dart';
 import 'package:squadrum/app/app_module.dart';
 import 'package:squadrum/app/modules/home/resumo/resumo_module.dart';
 import 'package:squadrum/app/modules/home/resumo/squad/squad_bloc.dart';
+import 'package:squadrum/app/services/firebase_service.dart';
 import 'package:squadrum/app/services/image_service.dart';
 import 'package:squadrum/app/shared/models/squad_model.dart';
 import 'package:squadrum/app/shared/widgets/titulo_widget.dart';
@@ -53,7 +54,9 @@ class CabecalhoSquad extends StatelessWidget {
                         margin: EdgeInsets.only(left: 15),
                         child: GestureDetector(
                           onTap: () async {
-                            await atualizarLogoSquad(snapshot.data);
+                            //await atualizarLogoSquad(snapshot.data);
+                            await FirebaseService.atualizaLogoSquad(
+                                snapshot.data);
                           },
                           child: CircleAvatar(
                             minRadius: 22,
@@ -88,28 +91,5 @@ class CabecalhoSquad extends StatelessWidget {
         },
       ),
     );
-  }
-
-  atualizarLogoSquad(SquadModel squad) async {
-    File file = await ImagePicker.pickImage(source: ImageSource.gallery);
-
-    File image = await ImageService.comprimirImagem(file);
-
-    if (image == null) return null;
-
-    StorageUploadTask task =
-        FirebaseStorage.instance.ref().child(squad.id).putFile(image);
-    StorageTaskSnapshot taskSnapshot = await task.onComplete;
-    String url = await taskSnapshot.ref.getDownloadURL();
-
-    await Firestore.instance
-        .collection("squads")
-        .document(squad.id)
-        .updateData({"urlImagem": url});
-
-    squad.urlImagem = url;
-    squadBloc.adicionaSquad(squad);
-
-    AppModule.to.getBloc<AppBloc>().loadCurrentUser();
   }
 }

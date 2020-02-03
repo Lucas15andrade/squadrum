@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:squadrum/app/app_bloc.dart';
-import 'package:squadrum/app/app_module.dart';
 import 'package:squadrum/app/modules/home/resumo/squad/membro/membro_bloc.dart';
 import 'package:squadrum/app/modules/home/resumo/squad/membro/membro_module.dart';
 import 'package:squadrum/app/services/firebase_service.dart';
