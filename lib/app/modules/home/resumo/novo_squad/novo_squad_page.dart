@@ -1,11 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:squadrum/app/app_bloc.dart';
+import 'package:squadrum/app/app_module.dart';
+import 'package:squadrum/app/services/firebase_service.dart';
+import 'package:squadrum/app/shared/models/squad_model.dart';
 import 'package:squadrum/app/shared/widgets/input_widget.dart';
-import 'package:squadrum/app/shared/widgets/titulo_widget.dart';
 
 class NovoSquadPage extends StatefulWidget {
   final String title;
@@ -83,9 +85,7 @@ class _NovoSquadPageState extends State<NovoSquadPage> {
                     Icons.text_fields,
                     color: Colors.black,
                   ),
-                  (s) {
-                    //membroBloc.pesquisaNickname(s);
-                  },
+                  (s) {},
                   cor: Colors.black,
                 ),
                 SizedBox(
@@ -102,19 +102,28 @@ class _NovoSquadPageState extends State<NovoSquadPage> {
                     Icons.text_fields,
                     color: Colors.black,
                   ),
-                  (s) {
-                    //membroBloc.pesquisaNickname(s);
-                  },
+                  (s) {},
                   cor: Colors.black,
                 ),
                 SizedBox(
                   height: 15,
                 ),
                 Container(
-                  height: 40,
+                  height: 43,
                   child: RaisedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       print("Salvar");
+                      String uid =
+                          AppModule.to.bloc<AppBloc>().firebaseUser.uid;
+
+                      print(uid);
+
+                      SquadModel squad = SquadModel(
+                          titulo: _tituloController.text,
+                          descricao: _descricaoController.text,
+                          membros: [uid]);
+
+                      await FirebaseService.salvarSquad(squad, file);
                     },
                     color: Theme.of(context).primaryColor,
                     child: Text(

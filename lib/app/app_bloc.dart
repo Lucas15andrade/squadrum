@@ -109,7 +109,6 @@ class AppBloc extends BlocBase {
 
   Future<List<SquadModel>> carregaSquads(List<dynamic> squads) async {
     List<String> idSquads = squads.map((s) {
-      print(s.toString());
       return s.toString().trim();
     }).toList();
 

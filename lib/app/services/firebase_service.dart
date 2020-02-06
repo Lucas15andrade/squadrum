@@ -52,7 +52,6 @@ class FirebaseService {
 
   static Future<List<SquadModel>> carregaSquads(List<dynamic> squads) async {
     List<String> idSquads = squads.map((s) {
-      print(s.toString());
       return s.toString().trim();
     }).toList();
 
@@ -186,5 +185,27 @@ class FirebaseService {
     AppModule.to.getBloc<AppBloc>().loadCurrentUser();
   }
 
-  static Future<Null> salvarSquad(SquadModel squad) async {}
+  static Future<Null> salvarSquad(SquadModel squad, File file) async {
+
+    await Firestore.instance.collection("squads").add({
+      "titulo": squad.titulo,
+      "descricao": squad.descricao,
+      "membros": FieldValue.arrayUnion([squad.membros.first]),
+      "urlImagem":
+          "https://firebasestorage.googleapis.com/v0/b/squadrum-1d648.appspot.com/o/logo.png?alt=media&token=31ba7a2e-0eaf-4dd6-8406-ecac3a00733b"
+    });
+
+    //TODO Salvar squad, receber id, salvar imagem com id do squad, atualizar squad.
+    if (file != null) {
+      File image = await ImageService.comprimirImagem(file);
+
+      if (image == null) return null;
+
+      StorageUploadTask task =
+          FirebaseStorage.instance.ref().child(squad.id).putFile(image);
+      StorageTaskSnapshot taskSnapshot = await task.onComplete;
+      String url = await taskSnapshot.ref.getDownloadURL();
+    }
+
+  }
 }
