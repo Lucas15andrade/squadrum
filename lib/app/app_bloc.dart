@@ -29,7 +29,6 @@ class AppBloc extends BlocBase {
   Sink get squadIn => _squadController.sink;
 
   //TESTE INTERNET
-
   StreamController<ConnectivityResult> _connectivityController =
       StreamController();
 

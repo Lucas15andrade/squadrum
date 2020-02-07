@@ -185,7 +185,8 @@ class FirebaseService {
     AppModule.to.getBloc<AppBloc>().loadCurrentUser();
   }
 
-  static Future<Null> salvarSquad(SquadModel squad, File file) async {
+  static Future<String> salvarSquad(SquadModel squad, File file) async {
+    String idSquad;
 
     await Firestore.instance.collection("squads").add({
       "titulo": squad.titulo,
@@ -193,19 +194,35 @@ class FirebaseService {
       "membros": FieldValue.arrayUnion([squad.membros.first]),
       "urlImagem":
           "https://firebasestorage.googleapis.com/v0/b/squadrum-1d648.appspot.com/o/logo.png?alt=media&token=31ba7a2e-0eaf-4dd6-8406-ecac3a00733b"
+    }).then((doc) async {
+      idSquad = doc.documentID;
     });
 
-    //TODO Salvar squad, receber id, salvar imagem com id do squad, atualizar squad.
-    if (file != null) {
-      File image = await ImageService.comprimirImagem(file);
+    await Firestore.instance
+        .collection("usuarios")
+        .document(squad.membros.first)
+        .updateData({
+      "squads": FieldValue.arrayUnion([idSquad])
+    });
 
-      if (image == null) return null;
+    if (idSquad.isNotEmpty) {
+      if (file != null) {
+        File image = await ImageService.comprimirImagem(file);
 
-      StorageUploadTask task =
-          FirebaseStorage.instance.ref().child(squad.id).putFile(image);
-      StorageTaskSnapshot taskSnapshot = await task.onComplete;
-      String url = await taskSnapshot.ref.getDownloadURL();
+        if (image == null) return null;
+
+        StorageUploadTask task =
+            FirebaseStorage.instance.ref().child(idSquad).putFile(image);
+        StorageTaskSnapshot taskSnapshot = await task.onComplete;
+        String url = await taskSnapshot.ref.getDownloadURL();
+
+        await Firestore.instance
+            .collection("squads")
+            .document(idSquad)
+            .updateData({"urlImagem": url});
+      }
     }
-
+    await AppModule.to.getBloc<AppBloc>().carregaApenasSquads();
+    return idSquad;
   }
 }

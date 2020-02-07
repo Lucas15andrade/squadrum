@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:squadrum/app/app_bloc.dart';
 import 'package:squadrum/app/app_module.dart';
-import 'package:squadrum/app/modules/home/resumo/novo_squad/novo_squad_page.dart';
+import 'package:squadrum/app/modules/home/resumo/novo_squad/novo_squad_module.dart';
 import 'package:squadrum/app/shared/models/squad_model.dart';
 import 'package:squadrum/app/shared/widgets/caixa_widget.dart';
 import 'package:squadrum/app/shared/widgets/squad_widget.dart';
@@ -39,8 +39,8 @@ class _ResumoPageState extends State<ResumoPage> {
                 backgroundColor: Theme.of(context).primaryColor,
                 label: "Novo Squad",
                 onTap: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (_) => NovoSquadPage()));
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => NovoSquadModule()));
                 }),
           ],
         ),
