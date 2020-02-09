@@ -1,4 +1,8 @@
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
+import 'package:squadrum/app/app_bloc.dart';
+import 'package:squadrum/app/app_module.dart';
+import 'package:squadrum/app/modules/home/home_page.dart';
 
 class TestePage extends StatefulWidget {
   @override
@@ -6,8 +10,17 @@ class TestePage extends StatefulWidget {
 }
 
 class _TestePageState extends State<TestePage> {
+  final AppBloc appBloc = AppModule.to.getBloc<AppBloc>();
+
   @override
   Widget build(BuildContext context) {
+    appBloc.conOut.listen((data) async {
+      if (data != ConnectivityResult.none) {
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => HomePage()));
+      }
+    });
+
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       body: Center(

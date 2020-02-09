@@ -99,6 +99,8 @@ flutter:
     - assets/images/not.png
     - assets/images/not-found.png
     - assets/images/camera.png
+    - assets/images/okay.png
+    - assets/images/cloud.png
 
     - assets/icons/add.png
     - assets/icons/calendar.png

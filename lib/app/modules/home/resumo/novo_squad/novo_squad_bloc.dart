@@ -30,5 +30,8 @@ class NovoSquadBloc extends BlocBase {
     } else {
       sucessoIn.add(Status.ERRO);
     }
+
+    /* await Future.delayed(Duration(seconds: 3));
+    sucessoIn.add(Status.SUCESSO); */
   }
 }

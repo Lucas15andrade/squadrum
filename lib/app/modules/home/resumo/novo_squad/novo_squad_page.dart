@@ -7,8 +7,6 @@ import 'package:squadrum/app/app_bloc.dart';
 import 'package:squadrum/app/app_module.dart';
 import 'package:squadrum/app/modules/home/resumo/novo_squad/novo_squad_bloc.dart';
 import 'package:squadrum/app/modules/home/resumo/novo_squad/novo_squad_module.dart';
-import 'package:squadrum/app/modules/home/resumo/resumo_module.dart';
-import 'package:squadrum/app/services/firebase_service.dart';
 import 'package:squadrum/app/shared/enums/status.dart';
 import 'package:squadrum/app/shared/models/squad_model.dart';
 import 'package:squadrum/app/shared/widgets/input_widget.dart';
@@ -33,6 +31,16 @@ class _NovoSquadPageState extends State<NovoSquadPage> {
 
   @override
   Widget build(BuildContext context) {
+    precacheImage(AssetImage("assets/images/okay.png"), context);
+    precacheImage(AssetImage("assets/images/cloud.png"), context);
+
+    novoSquadBloc.sucessoOut.listen((data) async {
+      if (data == Status.SUCESSO) {
+        await Future.delayed(Duration(seconds: 3));
+        Navigator.of(context).pop();
+      }
+    });
+
     return Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
@@ -127,15 +135,19 @@ class _NovoSquadPageState extends State<NovoSquadPage> {
                           height: 43,
                           child: RaisedButton(
                             onPressed: () async {
-                              String uid =
-                                  AppModule.to.bloc<AppBloc>().firebaseUser.uid;
+                              if (_formKey.currentState.validate()) {
+                                String uid = AppModule.to
+                                    .bloc<AppBloc>()
+                                    .firebaseUser
+                                    .uid;
 
-                              SquadModel squad = SquadModel(
-                                  titulo: _tituloController.text,
-                                  descricao: _descricaoController.text,
-                                  membros: [uid]);
+                                SquadModel squad = SquadModel(
+                                    titulo: _tituloController.text,
+                                    descricao: _descricaoController.text,
+                                    membros: [uid]);
 
-                              await novoSquadBloc.adicionarSquad(squad, file);
+                                await novoSquadBloc.adicionarSquad(squad, file);
+                              }
                             },
                             color: Theme.of(context).primaryColor,
                             child: Text(
@@ -149,24 +161,9 @@ class _NovoSquadPageState extends State<NovoSquadPage> {
                       ],
                     ));
               } else if (snapshot.data == Status.CARREGANDO) {
-                return Center(
-                  child: Column(
-                    children: <Widget>[
-                      CircularProgressIndicator(
-                        backgroundColor: Theme.of(context).primaryColor,
-                      ),
-                      Text(
-                        "Enviando",
-                        style: TextStyle(color: Theme.of(context).primaryColor),
-                      )
-                    ],
-                  ),
-                );
+                return carregando(context);
               } else if (snapshot.data == Status.SUCESSO) {
-                //TODO refazer, não é possível mudar a página. Adicionar mensagem de sucesso.
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => ResumoModule()));
-                //return Container();
+                return sucesso(context);
               } else {
                 return Container();
               }
@@ -177,11 +174,56 @@ class _NovoSquadPageState extends State<NovoSquadPage> {
         ));
   }
 
-  showSnackBar({@required String mensagem, @required Color cor}) {
-    _scaffoldKey.currentState.showSnackBar(SnackBar(
-      content: Text(mensagem),
-      backgroundColor: cor,
-      //duration: Duration(seconds: 2),
-    ));
+  Widget sucesso(context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Center(
+          child: Image.asset(
+            "assets/images/okay.png",
+            width: 300,
+          ),
+        ),
+        SizedBox(
+          height: 25,
+        ),
+        Text(
+          "Cadastro feito com sucesso!",
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+        ),
+      ],
+    );
+  }
+
+  Widget carregando(context) {
+    return Center(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          /* SizedBox(
+            height: 30,
+          ), */
+          Center(
+            child: Image.asset(
+              "assets/images/cloud.png",
+              width: 250,
+            ),
+          ),
+          SizedBox(
+            height: 50,
+          ),
+          CircularProgressIndicator(
+            backgroundColor: Theme.of(context).primaryColor,
+          ),
+          SizedBox(
+            height: 25,
+          ),
+          Text("Estamos salvando...",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20))
+        ],
+      ),
+    );
   }
 }

@@ -30,14 +30,14 @@ class AppBloc extends BlocBase {
 
   //TESTE INTERNET
   StreamController<ConnectivityResult> _connectivityController =
-      StreamController();
+      StreamController<ConnectivityResult>.broadcast();
 
   Stream get conOut => _connectivityController.stream;
   Sink get conIn => _connectivityController.sink;
 
   StreamSubscription<ConnectivityResult> _subscription;
 
-  StreamSubscription get subsOut => _subscription;
+  //StreamSubscription get subsOut => _subscription;
 
   //dispose will be called automatically by closing its streams
   AppBloc() {
@@ -75,6 +75,7 @@ class AppBloc extends BlocBase {
             .document(firebaseUser.uid)
             .get();
         userData = docUser.data;
+        usuario = UsuarioModel.fromDocument(docUser);
         usuario.firebaseUser = firebaseUser;
         usuario.squads = await carregaSquads(docUser.data["squads"]);
         userIn.add(usuario);
@@ -94,10 +95,10 @@ class AppBloc extends BlocBase {
     userIn.add(usuario);
     squadIn.add(usuario.squads);
 
-    notifyListeners();
+    //notifyListeners();
   }
 
-  void signOut() async {
+  Future<Null> signOut() async {
     await _auth.signOut();
     userData = Map();
     firebaseUser = null;
@@ -128,7 +129,6 @@ class AppBloc extends BlocBase {
               .document(idMembro.toString().trim())
               .get();
           UsuarioModel usuario = UsuarioModel.fromDocument(doc);
-          print(usuario.nome);
           squad.listaUsuarios.add(usuario);
         }
       }

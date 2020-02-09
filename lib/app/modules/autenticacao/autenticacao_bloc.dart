@@ -28,7 +28,7 @@ class AutenticacaoBloc extends BlocBase {
           userData: userData, firebaseUser: firebaseUser);
 
       AppModule.to.bloc<AppBloc>().adicionarUsuario(usuario);
-
+      AppModule.to.bloc<AppBloc>().loadCurrentUser();
       onSuccess();
     }).catchError((e) {
       print(e);
@@ -50,20 +50,19 @@ class AutenticacaoBloc extends BlocBase {
       AppModule.to.bloc<AppBloc>().adicionarUsuario(usuario);
       AppModule.to.bloc<AppBloc>().loadCurrentUser();
       onSuccess();
-      await Future.delayed(Duration(seconds: 10));
-      usuario.carregando = true;
-      AppModule.to.bloc<AppBloc>().adicionarUsuario(usuario);
     }).catchError((e) {
       onFail();
       print(e);
     });
   }
 
-  void signOut() async {
+/*   void signOut() async {
     await _auth.signOut();
     usuario.firebaseUser = null;
+    firebaseUser = null;
+    usuario = UsuarioModel();
     AppModule.to.bloc<AppBloc>().adicionarUsuario(usuario);
-  }
+  } */
 
   void recoverPass(String email) {
     _auth.sendPasswordResetEmail(email: email);

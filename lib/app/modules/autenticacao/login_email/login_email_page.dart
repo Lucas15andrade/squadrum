@@ -52,16 +52,21 @@ class _LoginEmailPageState extends State<LoginEmailPage> {
               SizedBox(
                 height: 20,
               ),
-              InputWidget(_emailController, "E-mail", (text) {
-                if (text.isEmpty || !text.contains("@"))
-                  return "E-mail inválido!";
-              },
-                  1,
-                  Icon(
-                    Icons.email,
-                    color: Colors.white,
-                  ),
-                  (s) {}),
+              InputWidget(
+                _emailController,
+                "E-mail",
+                (text) {
+                  if (text.isEmpty || !text.contains("@"))
+                    return "E-mail inválido!";
+                },
+                1,
+                Icon(
+                  Icons.email,
+                  color: Colors.white,
+                ),
+                (s) {},
+                inputType: TextInputType.emailAddress,
+              ),
               SizedBox(
                 height: 20,
               ),

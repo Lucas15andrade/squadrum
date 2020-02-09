@@ -67,7 +67,7 @@ class _ResumoPageState extends State<ResumoPage> {
                         );
                       } else {
                         return VazioWidget(
-                          texto: "Você ainda não possui Squads!",
+                          texto: "Você ainda não possui Squad!",
                         );
                       }
                     },

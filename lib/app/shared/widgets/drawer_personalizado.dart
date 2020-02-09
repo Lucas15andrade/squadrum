@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:squadrum/app/app_bloc.dart';
 import 'package:squadrum/app/app_module.dart';
 import 'package:squadrum/app/shared/models/usuario_model.dart';
@@ -29,7 +30,45 @@ class DrawerPersonalizado extends StatelessWidget {
         );
 
     return Drawer(
-      child: Stack(
+        child: ListView(
+      padding: EdgeInsets.zero,
+      children: <Widget>[
+        UserAccountsDrawerHeader(
+            currentAccountPicture: CircleAvatar(
+              backgroundImage: NetworkImage(usuario.urlImagem),
+            ),
+            accountName: Text("Olá, ${usuario.nome} ${usuario.sobrenome}"),
+            accountEmail: Text("${usuario.firebaseUser.email}")),
+        ListTile(
+          enabled: false,
+          title: Text("Perfil"),
+          leading: Icon(FontAwesomeIcons.user),
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        ListTile(
+          enabled: false,
+          title: Text("Sobre"),
+          leading: Icon(Icons.info),
+          onTap: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        ListTile(
+          title: Text("Sair"),
+          leading: Icon(Icons.exit_to_app),
+          onTap: () async {
+            Navigator.of(context).pop();
+            await appBloc.signOut();
+          },
+        ),
+      ],
+    ));
+  }
+}
+
+/* Stack(
         children: <Widget>[
           _buildDrawerBack(),
           ListView(
@@ -57,7 +96,7 @@ class DrawerPersonalizado extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                "Olá, ${usuario.firebaseUser.email}",
+                                "Olá, ${usuario.nome}",
                                 style: TextStyle(
                                     fontSize: 18.0,
                                     fontWeight: FontWeight.bold),
@@ -70,9 +109,9 @@ class DrawerPersonalizado extends StatelessWidget {
                                       fontSize: 16.0,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                onTap: () {
+                                onTap: () async{
                                   Navigator.of(context).pop();
-                                  appBloc.signOut();
+                                  await appBloc.signOut();
                                 },
                               )
                             ],
@@ -82,7 +121,4 @@ class DrawerPersonalizado extends StatelessWidget {
                 ),
               ])
         ],
-      ),
-    );
-  }
-}
+      ), */

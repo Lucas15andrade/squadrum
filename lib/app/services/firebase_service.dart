@@ -26,7 +26,7 @@ class FirebaseService {
     await Firestore.instance
         .collection("usuarios")
         .document(firebaseUser.uid)
-        .setData({
+        .updateData({
       "urlImagem":
           "https://firebasestorage.googleapis.com/v0/b/squadrum-1d648.appspot.com/o/boy.png?alt=media&token=c80e3c2d-1f5c-4a82-bde4-30b91709bcce"
     });

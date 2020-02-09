@@ -8,10 +8,11 @@ class InputWidget extends StatelessWidget {
   Icon icone;
   var onChange;
   Color cor;
+  TextInputType inputType;
 
   InputWidget(this._controller, this.texto, this.callback, this.tipo,
       this.icone, this.onChange,
-      {this.cor});
+      {this.cor, this.inputType});
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +20,7 @@ class InputWidget extends StatelessWidget {
       obscureText: tipo == 2 ? true : false,
       controller: _controller,
       style: TextStyle(color: cor != null ? cor : Colors.white, fontSize: 20),
+      keyboardType: inputType != null ? inputType : TextInputType.text,
       decoration: InputDecoration(
         prefixIcon: icone,
         labelText: texto,
@@ -28,9 +30,15 @@ class InputWidget extends StatelessWidget {
         border: OutlineInputBorder(),
         hintStyle: TextStyle(color: cor != null ? cor : Colors.white),
         labelStyle: TextStyle(color: cor != null ? cor : Colors.white),
+        errorStyle: TextStyle(color: cor != null ? cor : Colors.white),
+        errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(5.0)),
+            borderSide: BorderSide(
+                color: cor != null ? cor : Colors.white, width: 2.0)),
         focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(5.0)),
-            borderSide: BorderSide(color: cor != null ? cor : Colors.white, width: 2.0)),
+            borderSide: BorderSide(
+                color: cor != null ? cor : Colors.white, width: 2.0)),
       ),
       validator: callback,
       onChanged: onChange,
