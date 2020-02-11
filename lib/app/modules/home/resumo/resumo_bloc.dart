@@ -19,7 +19,7 @@ class ResumoBloc extends BlocBase {
 
   var usuario = AppModule.to.bloc<AppBloc>().usuario;
 
-  ResumoBloc() {}
+  ResumoBloc();
 
   //dispose will be called automatically by closing its streams
   @override

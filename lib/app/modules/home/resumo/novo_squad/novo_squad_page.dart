@@ -7,6 +7,7 @@ import 'package:squadrum/app/app_bloc.dart';
 import 'package:squadrum/app/app_module.dart';
 import 'package:squadrum/app/modules/home/resumo/novo_squad/novo_squad_bloc.dart';
 import 'package:squadrum/app/modules/home/resumo/novo_squad/novo_squad_module.dart';
+import 'package:squadrum/app/modules/home/resumo/resumo_page.dart';
 import 'package:squadrum/app/shared/enums/status.dart';
 import 'package:squadrum/app/shared/models/squad_model.dart';
 import 'package:squadrum/app/shared/widgets/input_widget.dart';
@@ -36,8 +37,10 @@ class _NovoSquadPageState extends State<NovoSquadPage> {
 
     novoSquadBloc.sucessoOut.listen((data) async {
       if (data == Status.SUCESSO) {
-        await Future.delayed(Duration(seconds: 3));
-        Navigator.of(context).pop();
+        if (Navigator.of(context).canPop()) {
+          await Future.delayed(Duration(seconds: 3));
+          Navigator.of(context).pop();
+        }
       }
     });
 

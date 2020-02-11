@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:squadrum/app/modules/autenticacao/login_email/login_email_module.dart';
 import 'package:squadrum/app/modules/autenticacao/registro_email/registro_email_module.dart';

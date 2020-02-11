@@ -1,18 +1,9 @@
-import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:squadrum/app/app_bloc.dart';
-import 'package:squadrum/app/app_module.dart';
 import 'package:squadrum/app/modules/home/resumo/resumo_module.dart';
 import 'package:squadrum/app/modules/home/resumo/squad/squad_bloc.dart';
 import 'package:squadrum/app/services/firebase_service.dart';
-import 'package:squadrum/app/services/image_service.dart';
 import 'package:squadrum/app/shared/models/squad_model.dart';
-import 'package:squadrum/app/shared/widgets/titulo_widget.dart';
 
 class CabecalhoSquad extends StatelessWidget {
   SquadBloc squadBloc = ResumoModule.to.getBloc<SquadBloc>();

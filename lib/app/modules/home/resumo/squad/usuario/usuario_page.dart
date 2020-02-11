@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:squadrum/app/services/firebase_service.dart';
 import 'package:squadrum/app/shared/models/usuario_model.dart';
 import 'package:squadrum/app/shared/widgets/bio_widget.dart';

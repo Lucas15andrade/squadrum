@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:squadrum/app/app_bloc.dart';
-import 'package:squadrum/app/app_module.dart';
 import 'package:squadrum/app/modules/autenticacao/autenticacao_bloc.dart';
 import 'package:squadrum/app/modules/autenticacao/autenticacao_module.dart';
 import 'package:squadrum/app/shared/widgets/input_widget.dart';

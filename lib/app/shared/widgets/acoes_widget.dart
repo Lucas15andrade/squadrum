@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:squadrum/app/modules/home/resumo/squad/evento/evento_module.dart';
 import 'package:squadrum/app/modules/home/resumo/squad/membro/membro_module.dart';
 
 class AcoesWidget extends StatelessWidget {
@@ -23,7 +24,12 @@ class AcoesWidget extends StatelessWidget {
                       imagem: AssetImage("assets/icons/add.png"))),
               Expanded(
                   child: buildAcao(
-                      acao: () {},
+                      acao: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EventoModule()));
+                      },
                       texto: "Adicionar Evento",
                       imagem: AssetImage("assets/icons/calendar.png"))),
               Expanded(
@@ -45,8 +51,7 @@ class AcoesWidget extends StatelessWidget {
                       acao: () {},
                       texto: "Medidas de Direção",
                       imagem: AssetImage("assets/icons/direction.png"))),
-              Expanded(
-                  child: Container()),
+              Expanded(child: Container()),
             ],
           ),
         ],
